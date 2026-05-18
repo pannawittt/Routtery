@@ -9,24 +9,25 @@ import { motion, AnimatePresence } from "motion/react";
 import { useT } from "@/app/hooks/useT";
 
 // ─── CANAL ROUTE ───────────────────────────────────────────────────────────────
+// Updated path along Khlong Phaduong Krung Kasem matching actual checkpoint coordinates
 
 const CANAL_PATH: [number, number][] = [
-  [13.7370, 100.5100],
-  [13.7382, 100.5161],
-  [13.7420, 100.5130],
-  [13.7455, 100.5115],
-  [13.7480, 100.5110],
-  [13.7510, 100.5108],
-  [13.7540, 100.5098],
-  [13.7570, 100.5090],
-  [13.7600, 100.5082],
-  [13.7630, 100.5068],
-  [13.7648, 100.5030],
-  [13.7680, 100.5022],
-  [13.7718, 100.5010],
+  [13.7322126, 100.5150767], // ตลาดน้อย
+  [13.735, 100.5153],
+  [13.738095, 100.515669],   // หัวลำโพง
+  [13.7420, 100.5165],
+  [13.7460, 100.5172],
+  [13.7500, 100.5175],
+  [13.751483, 100.517557],   // โบ๊เบ๊ / นางเลิ้ง
+  [13.7540, 100.5170],
+  [13.756622, 100.516321],   // สถานที่ราชการ
+  [13.7600, 100.5120],
+  [13.7640, 100.5070],
+  [13.7680, 100.5050],
+  [13.769756, 100.503858],   // เทเวศร์
 ];
 
-const MAP_CENTER: [number, number] = [13.7545, 100.508];
+const MAP_CENTER: [number, number] = [13.751, 100.515];
 
 const CATEGORY_COLOR: Record<string, string> = {
   food: "#E8340A",
@@ -281,6 +282,7 @@ export function MapView() {
   const placeMarkersRef = useRef<L.Marker[]>([]);
   const userMarkerRef = useRef<L.Marker | null>(null);
   const watchIdRef = useRef<number | null>(null);
+  const pathLinesRef = useRef<L.Polyline[]>([]);
 
   const completedCount = completedCheckpoints.filter(Boolean).length;
   const selectedCp = selected !== null ? checkpoints[selected] : null;
@@ -307,9 +309,6 @@ export function MapView() {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>',
       maxZoom: 19,
     }).addTo(map);
-
-    L.polyline(CANAL_PATH, { color: "#0057B8", weight: 12, opacity: 0.12 }).addTo(map);
-    L.polyline(CANAL_PATH, { color: "#0057B8", weight: 5, opacity: 0.55, dashArray: "10 6" }).addTo(map);
 
     const bounds = L.latLngBounds(checkpoints.map(cp => [cp.lat, cp.lng]));
     map.fitBounds(bounds, { padding: [52, 52] });
@@ -381,6 +380,44 @@ export function MapView() {
       markersRef.current.push(marker);
     });
   }, [cfg.color, currentCheckpoint, completedCheckpoints]);
+
+  // Update path lines based on completed checkpoints
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map) return;
+
+    // Remove existing path lines
+    pathLinesRef.current.forEach(line => line.remove());
+    pathLinesRef.current = [];
+
+    // Draw lines between checkpoints
+    for (let i = 0; i < checkpoints.length - 1; i++) {
+      const currentCp = checkpoints[i];
+      const nextCp = checkpoints[i + 1];
+      const segment: [number, number][] = [[currentCp.lat, currentCp.lng], [nextCp.lat, nextCp.lng]];
+
+      // Determine if this segment is completed (both checkpoints are done)
+      const isCompleted = completedCheckpoints[i] && completedCheckpoints[i + 1];
+      const isCurrentSegment = i === currentCheckpoint || i + 1 === currentCheckpoint;
+
+      // Background line (wider, lighter)
+      const bgLine = L.polyline(segment, {
+        color: isCompleted ? "#00754b" : isCurrentSegment ? cfg.color : "#C5D9CC",
+        weight: 12,
+        opacity: isCompleted ? 0.15 : 0.08,
+      }).addTo(map);
+      pathLinesRef.current.push(bgLine);
+
+      // Foreground line (narrower, more visible)
+      const fgLine = L.polyline(segment, {
+        color: isCompleted ? "#00754b" : isCurrentSegment ? cfg.color : "#C5D9CC",
+        weight: 5,
+        opacity: isCompleted ? 0.7 : isCurrentSegment ? 0.5 : 0.25,
+        dashArray: isCompleted ? undefined : "10 6",
+      }).addTo(map);
+      pathLinesRef.current.push(fgLine);
+    }
+  }, [completedCheckpoints, currentCheckpoint, cfg.color]);
 
   // Update place markers
   useEffect(() => {

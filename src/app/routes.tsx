@@ -13,17 +13,17 @@ import { Stamps } from "@/pages/Stamps";
 export const router = createBrowserRouter([
   {
     path: "/",
-    Component: Root,
+    element: <Root />,
     children: [
-      { index: true, Component: Splash },
-      { path: "plan", Component: Plan },
-      { path: "mode", Component: SelectMode },
-      { path: "map", Component: MapView },
-      { path: "explore", Component: Explore },
-      { path: "lottery", Component: Lottery },
-      { path: "lottery/active", Component: LotteryActive },
-      { path: "summary", Component: Summary },
-      { path: "stamps", Component: Stamps },
+      { index: true, element: <Splash /> },
+      { path: "plan", element: <Plan /> },
+      { path: "mode", element: <SelectMode /> },
+      { path: "map", element: <MapView /> },
+      { path: "explore", element: <Explore /> },
+      { path: "lottery", element: <Lottery /> },
+      { path: "lottery/active", element: <LotteryActive /> },
+      { path: "summary", element: <Summary /> },
+      { path: "stamps", element: <Stamps /> },
     ],
   },
 ]);

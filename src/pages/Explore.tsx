@@ -1,6 +1,6 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router";
-import { Play, Pause, ChevronDown, ChevronUp, ArrowRight, QrCode, Volume2, X } from "lucide-react";
+import { Play, Pause, ArrowRight, Volume2, X } from "lucide-react";
 import { Card, PrimaryButton, ProgressDots } from "@/components/ui";
 import { useAppState, useAppDispatch } from "@/app/store";
 import { checkpoints, lotteryData, modeConfig, type LotteryChallenge } from "@/data/constants";
@@ -9,9 +9,9 @@ import { useT } from "@/app/hooks/useT";
 
 // ─── TICKET HELPERS ────────────────────────────────────────────────────────────
 
-const TICKET_COLORS = ["#E8340A", "#00A878", "#0057B8", "#7B2FBE", "#F5A800"];
+const TICKET_COLORS = ["#00754b", "#00c08b", "#0071ce", "#480086", "#feb449"];
 const METHOD_EMOJI: Record<string, string> = { walk: "🚶", bike: "🚲", boat: "⛵" };
-const METHOD_COLOR: Record<string, string> = { walk: "#00A878", bike: "#7B2FBE", boat: "#0057B8" };
+const METHOD_COLOR: Record<string, string> = { walk: "#00c08b", bike: "#480086", boat: "#0071ce" };
 
 const ticketColor = (id: number) => TICKET_COLORS[(id - 1) % TICKET_COLORS.length];
 
@@ -38,12 +38,12 @@ function LotteryTicket({
     <motion.button
       onClick={onClick}
       whileTap={{ scale: 0.92 }}
-      className="relative flex flex-col overflow-hidden rounded-lg w-full bg-[#FFFDF5] border-2 select-none"
+      className="relative flex flex-col overflow-hidden rounded-lg w-full bg-[#F0F8F4] border-2 select-none"
       style={{
-        borderColor: selected ? color : "rgba(26,18,7,0.18)",
+        borderColor: selected ? color : "rgba(18,32,26,0.18)",
         boxShadow: selected
-          ? `0 0 0 2px ${color}, 2px 2px 0 #1A1207`
-          : "1px 1px 0 rgba(26,18,7,0.35)",
+          ? `0 0 0 2px ${color}, 2px 2px 0 #12201a`
+          : "1px 1px 0 rgba(18,32,26,0.35)",
         minHeight: 148,
       }}
     >
@@ -77,12 +77,12 @@ function LotteryTicket({
       {/* Ticket number */}
       <div className="flex-1 flex flex-col items-center justify-center px-1.5 py-2">
         <div
-          className="font-['Fahkwang'] font-bold text-[#1A1207] tracking-widest tabular-nums"
+          className="font-['Fahkwang'] font-bold text-[#12201a] tracking-widest tabular-nums"
           style={{ fontSize: 16, letterSpacing: "0.1em" }}
         >
           {num}
         </div>
-        <div className="font-['Sarabun'] text-[#1A1207]/30 mt-0.5" style={{ fontSize: 7 }}>
+        <div className="font-['Sarabun'] text-[#12201a]/30 mt-0.5" style={{ fontSize: 7 }}>
           หมายเลขสลาก
         </div>
       </div>
@@ -108,7 +108,7 @@ function LotteryTicket({
         ) : (
           <>
             <span style={{ fontSize: 10 }}>🎲</span>
-            <span className="font-['Fahkwang'] text-[#1A1207]/30 tracking-widest" style={{ fontSize: 9 }}>? ? ?</span>
+            <span className="font-['Fahkwang'] text-[#12201a]/30 tracking-widest" style={{ fontSize: 9 }}>? ? ?</span>
             <span style={{ fontSize: 10 }}>🎲</span>
           </>
         )}
@@ -139,8 +139,6 @@ function LotteryModal({
   const { lotteryStatuses } = useAppState();
   const [selected, setSelected] = useState<LotteryChallenge | null>(null);
 
-  const available = lotteryData.filter(l => lotteryStatuses[l.id] === "available");
-
   const handleSelect = (c: LotteryChallenge) =>
     setSelected(prev => (prev?.id === c.id ? null : c));
 
@@ -149,7 +147,7 @@ function LotteryModal({
       {/* Backdrop */}
       <motion.div
         className="absolute inset-0"
-        style={{ backgroundColor: "rgba(26,18,7,0.82)" }}
+        style={{ backgroundColor: "rgba(18,32,26,0.82)" }}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         onClick={onSkip}
@@ -159,9 +157,9 @@ function LotteryModal({
       <motion.div
         className="relative w-full max-w-lg flex flex-col rounded-t-[24px] border-t-2 border-x-2 overflow-hidden"
         style={{
-          background: "linear-gradient(170deg, #2E1D0C 0%, #1A1207 100%)",
-          borderColor: "#C8A96E",
-          boxShadow: "0 -5px 0 #C8A96E",
+          background: "linear-gradient(170deg, #0f2d1e 0%, #12201a 100%)",
+          borderColor: "#feb449",
+          boxShadow: "0 -5px 0 #feb449",
           maxHeight: "91vh",
         }}
         initial={{ y: "100%" }}
@@ -171,29 +169,29 @@ function LotteryModal({
       >
         {/* Drag handle */}
         <div className="flex justify-center pt-3 pb-0 flex-shrink-0">
-          <div className="w-9 h-1 rounded-full" style={{ backgroundColor: "rgba(200,169,110,0.35)" }} />
+          <div className="w-9 h-1 rounded-full" style={{ backgroundColor: "rgba(254,180,73,0.35)" }} />
         </div>
 
         {/* Header */}
         <div
           className="px-4 pt-3 pb-3 flex-shrink-0"
-          style={{ borderBottom: "1px solid rgba(200,169,110,0.2)" }}
+          style={{ borderBottom: "1px solid rgba(254,180,73,0.2)" }}
         >
           <div className="flex items-start justify-between gap-3">
             <div>
-              <h3 className="font-['Fahkwang'] font-bold text-[#F5A800]" style={{ fontSize: 21 }}>
+              <h3 className="font-['Fahkwang'] font-bold text-[#feb449]" style={{ fontSize: 21 }}>
                 เลือกสลากของคุณ
               </h3>
-              <p className="font-['Sarabun'] text-[#C8A96E]/60 text-xs mt-0.5">
+              <p className="font-['Sarabun'] text-[#feb449]/60 text-xs mt-0.5">
                 ตอบถูกแล้ว! แตะสลากหมายเลขที่ชอบ
               </p>
             </div>
             <button
               onClick={onSkip}
               className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"
-              style={{ border: "1px solid rgba(200,169,110,0.3)", backgroundColor: "rgba(200,169,110,0.1)" }}
+              style={{ border: "1px solid rgba(254,180,73,0.3)", backgroundColor: "rgba(254,180,73,0.1)" }}
             >
-              <X size={13} className="text-[#C8A96E]" />
+              <X size={13} className="text-[#feb449]" />
             </button>
           </div>
 
@@ -202,7 +200,7 @@ function LotteryModal({
             {(["walk", "bike", "boat"] as const).map(m => (
               <div key={m} className="flex items-center gap-1">
                 <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: METHOD_COLOR[m] }} />
-                <span className="font-['Sarabun'] text-[#C8A96E]/45" style={{ fontSize: 9 }}>
+                <span className="font-['Sarabun'] text-[#feb449]/45" style={{ fontSize: 9 }}>
                   {METHOD_EMOJI[m]} {m}
                 </span>
               </div>
@@ -215,36 +213,32 @@ function LotteryModal({
           className="flex-1 overflow-y-auto px-2.5 py-2.5"
           style={{
             backgroundImage:
-              "repeating-linear-gradient(90deg,rgba(200,169,110,0.05) 0,rgba(200,169,110,0.05) 1px,transparent 1px,transparent 40px)," +
-              "repeating-linear-gradient(0deg,rgba(200,169,110,0.05) 0,rgba(200,169,110,0.05) 1px,transparent 1px,transparent 40px)",
+              "repeating-linear-gradient(90deg,rgba(0,192,139,0.06) 0,rgba(0,192,139,0.06) 1px,transparent 1px,transparent 40px)," +
+              "repeating-linear-gradient(0deg,rgba(0,192,139,0.06) 0,rgba(0,192,139,0.06) 1px,transparent 1px,transparent 40px)",
           }}
         >
-          {available.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-16 gap-2">
-              <span className="text-3xl">🎟️</span>
-              <span className="font-['Fahkwang'] text-[#C8A96E]/50 text-sm">ไม่มีสลากเหลือแล้ว</span>
-            </div>
-          ) : (
-            <div
-              className="grid gap-2"
-              style={{ gridTemplateColumns: "repeat(3, 1fr)" }}
-            >
-              {available.map(c => (
+          <div
+            className="grid gap-2"
+            style={{ gridTemplateColumns: "repeat(3, 1fr)" }}
+          >
+            {lotteryData.map(c => {
+              const isAvailableChallenge = lotteryStatuses[c.id] === "available";
+              return (
                 <LotteryTicket
                   key={c.id}
                   challenge={c}
                   selected={selected?.id === c.id}
-                  onClick={() => handleSelect(c)}
+                  onClick={() => isAvailableChallenge && handleSelect(c)}
                 />
-              ))}
-            </div>
-          )}
+              );
+            })}
+          </div>
         </div>
 
         {/* Bottom confirm panel */}
         <div
           className="flex-shrink-0"
-          style={{ borderTop: "1px solid rgba(200,169,110,0.2)", minHeight: 90 }}
+          style={{ borderTop: "1px solid rgba(254,180,73,0.2)", minHeight: 90 }}
         >
           <AnimatePresence mode="wait">
             {selected ? (
@@ -258,11 +252,11 @@ function LotteryModal({
               >
                 {/* Reveal banner */}
                 <div className="flex items-center justify-center gap-2 mb-2.5">
-                  <div className="flex-1 h-px" style={{ backgroundColor: "rgba(200,169,110,0.2)" }} />
-                  <span className="font-['Fahkwang'] text-[#F5A800]" style={{ fontSize: 11 }}>
+                  <div className="flex-1 h-px" style={{ backgroundColor: "rgba(254,180,73,0.2)" }} />
+                  <span className="font-['Fahkwang'] text-[#feb449]" style={{ fontSize: 11 }}>
                     🎉 คุณได้รับความท้าทาย!
                   </span>
-                  <div className="flex-1 h-px" style={{ backgroundColor: "rgba(200,169,110,0.2)" }} />
+                  <div className="flex-1 h-px" style={{ backgroundColor: "rgba(254,180,73,0.2)" }} />
                 </div>
 
                 {/* Revealed challenge — pops in */}
@@ -319,15 +313,15 @@ function LotteryModal({
                 <div className="flex gap-2">
                   <button
                     onClick={() => onAccept(selected)}
-                    className="flex-1 font-['Fahkwang'] text-sm text-white py-3 rounded-full border-2 border-[#1A1207] flex items-center justify-center gap-1.5 bg-[#E8340A] active:translate-x-px active:translate-y-px transition-transform"
-                    style={{ boxShadow: "3px 3px 0 #1A1207" }}
+                    className="flex-1 font-['Fahkwang'] text-sm text-white py-3 rounded-full border-2 border-[#12201a] flex items-center justify-center gap-1.5 bg-[#00754b] active:translate-x-px active:translate-y-px transition-transform"
+                    style={{ boxShadow: "3px 3px 0 #12201a" }}
                   >
                     รับสลากนี้เลย! <ArrowRight size={14} />
                   </button>
                   <button
                     onClick={() => setSelected(null)}
-                    className="font-['Fahkwang'] text-xs text-[#C8A96E] px-4 py-3 rounded-full"
-                    style={{ border: "1px solid rgba(200,169,110,0.3)", backgroundColor: "rgba(200,169,110,0.08)" }}
+                    className="font-['Fahkwang'] text-xs text-[#feb449] px-4 py-3 rounded-full"
+                    style={{ border: "1px solid rgba(254,180,73,0.3)", backgroundColor: "rgba(254,180,73,0.08)" }}
                   >
                     เลือกใหม่
                   </button>
@@ -342,7 +336,7 @@ function LotteryModal({
                 exit={{ opacity: 0 }}
               >
                 <span className="text-xl">🎟️</span>
-                <span className="font-['Sarabun'] text-[#C8A96E]/40 text-sm">
+                <span className="font-['Sarabun'] text-[#feb449]/40 text-sm">
                   แตะสลากหมายเลขที่ชอบ
                 </span>
               </motion.div>
@@ -354,12 +348,170 @@ function LotteryModal({
   );
 }
 
+// ─── END ROUTE CONFIRMATION MODAL ─────────────────────────────────────────────
+
+function EndRouteModal({ onConfirm, onCancel }: { onConfirm: () => void; onCancel: () => void }) {
+  return (
+    <div className="fixed inset-0 z-[150] flex items-center justify-center p-4">
+      {/* Backdrop */}
+      <motion.div
+        className="absolute inset-0 bg-[#12201a]/70"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        onClick={onCancel}
+      />
+
+      {/* Modal */}
+      <motion.div
+        className="relative w-full max-w-sm bg-white rounded-3xl border-2 border-[#12201a] overflow-hidden p-6"
+        style={{ boxShadow: "6px 6px 0 #12201a" }}
+        initial={{ scale: 0.9, opacity: 0, y: 20 }}
+        animate={{ scale: 1, opacity: 1, y: 0 }}
+        exit={{ scale: 0.95, opacity: 0, y: 10 }}
+        transition={{ type: "spring", stiffness: 300, damping: 28 }}
+      >
+        <div className="text-center mb-5">
+          <div className="text-4xl mb-3">🛑</div>
+          <h3 className="font-['Fahkwang'] font-bold text-[#12201a] text-xl mb-2">จบเส้นทางตอนนี้?</h3>
+          <p className="font-['Sarabun'] text-[#12201a]/60 text-sm leading-relaxed">
+            คุณต้องการจบเส้นทางการเดินทางตอนนี้หรือไม่? ความคืบหน้าของคุณจะถูกบันทึกไว้
+          </p>
+        </div>
+
+        <div className="flex gap-3">
+          <button
+            onClick={onCancel}
+            className="flex-1 font-['Fahkwang'] text-sm py-3 rounded-full border-2 border-[#C5D9CC] bg-white text-[#12201a] hover:border-[#12201a] transition-all"
+          >
+            ยกเลิก
+          </button>
+          <button
+            onClick={onConfirm}
+            className="flex-1 font-['Fahkwang'] text-sm py-3 rounded-full border-2 border-[#12201a] bg-[#ec3faa] text-white transition-all active:translate-x-[2px] active:translate-y-[2px]"
+            style={{ boxShadow: "3px 3px 0 #12201a" }}
+          >
+            จบเส้นทาง
+          </button>
+        </div>
+      </motion.div>
+    </div>
+  );
+}
+
+// ─── STORY MODAL ──────────────────────────────────────────────────────────────
+
+function StoryModal({
+  checkpoint,
+  category,
+  onClose,
+  showActions,
+  onDrawLottery,
+  onNextCheckpoint,
+  modeColor,
+  t,
+}: {
+  checkpoint: typeof checkpoints[0];
+  category: "history" | "funFact" | "horror";
+  onClose: () => void;
+  showActions: boolean;
+  onDrawLottery?: () => void;
+  onNextCheckpoint?: () => void;
+  modeColor: string;
+  t: ReturnType<typeof useT>;
+}) {
+  const categoryConfig = {
+    history: { label: "ประวัติศาสตร์", emoji: "📜", color: "#0071ce" },
+    funFact: { label: "ข้อเท็จจริงน่ารู้", emoji: "💡", color: "#feb449" },
+    horror: { label: "เรื่องลี้ลับ", emoji: "👻", color: "#ec3faa" },
+  };
+
+  const config = categoryConfig[category];
+
+  return (
+    <div className="fixed inset-0 z-[150] flex items-center justify-center p-4">
+      {/* Backdrop */}
+      <motion.div
+        className="absolute inset-0 bg-[#12201a]/70"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        onClick={onClose}
+      />
+
+      {/* Modal */}
+      <motion.div
+        className="relative w-full max-w-lg bg-white rounded-3xl border-2 border-[#12201a] overflow-hidden"
+        style={{ boxShadow: "6px 6px 0 #12201a", maxHeight: "85vh" }}
+        initial={{ scale: 0.9, opacity: 0, y: 20 }}
+        animate={{ scale: 1, opacity: 1, y: 0 }}
+        exit={{ scale: 0.95, opacity: 0, y: 10 }}
+        transition={{ type: "spring", stiffness: 300, damping: 28 }}
+      >
+        {/* Header */}
+        <div
+          className="px-5 py-4 border-b-2 border-[#12201a] flex items-start justify-between gap-3"
+          style={{ backgroundColor: `${config.color}15` }}
+        >
+          <div className="flex items-center gap-2">
+            <span className="text-2xl">{config.emoji}</span>
+            <div>
+              <h3 className="font-['Fahkwang'] font-bold text-[#12201a] text-lg">{config.label}</h3>
+              <p className="font-['Sarabun'] text-[#12201a]/60 text-xs">{checkpoint.name}</p>
+            </div>
+          </div>
+          <button
+            onClick={onClose}
+            className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 border-2 border-[#12201a] bg-white hover:bg-[#F0F8F4] transition-colors"
+            style={{ boxShadow: "2px 2px 0 #12201a" }}
+          >
+            <X size={16} className="text-[#12201a]" />
+          </button>
+        </div>
+
+        {/* Content */}
+        <div className="overflow-y-auto" style={{ maxHeight: "calc(85vh - 200px)" }}>
+          <div className="px-5 py-5">
+            <p className="font-['Sarabun'] text-[#12201a]/75 text-sm leading-relaxed">
+              {checkpoint.stories[category]}
+            </p>
+          </div>
+        </div>
+
+        {/* Actions */}
+        {showActions && (
+          <div className="px-5 py-4 border-t-2 border-[#12201a] space-y-3 bg-[#F0F8F4]">
+            {onDrawLottery && (
+              <button
+                onClick={onDrawLottery}
+                className="w-full font-['Fahkwang'] text-base py-4 text-white border-2 border-[#12201a] rounded-full flex items-center justify-center gap-2 transition-all active:translate-x-[2px] active:translate-y-[2px]"
+                style={{ backgroundColor: "#feb449", boxShadow: "4px 4px 0 #12201a" }}
+              >
+                🎟️ จับฉลากความท้าทาย
+              </button>
+            )}
+            {onNextCheckpoint && (
+              <button
+                onClick={onNextCheckpoint}
+                className="w-full font-['Fahkwang'] text-base py-4 text-white border-2 border-[#12201a] rounded-full flex items-center justify-center gap-2 transition-all active:translate-x-[2px] active:translate-y-[2px]"
+                style={{ backgroundColor: modeColor, boxShadow: "4px 4px 0 #12201a" }}
+              >
+                {t.explore.next_cp} <ArrowRight size={18} />
+              </button>
+            )}
+          </div>
+        )}
+      </motion.div>
+    </div>
+  );
+}
+
 // ─── SIDEBAR ──────────────────────────────────────────────────────────────────
 
 function Sidebar({ current, completed, modeColor, t }: { current: number; completed: boolean[]; modeColor: string; t: ReturnType<typeof useT> }) {
   return (
-    <aside className="hidden md:flex flex-col w-72 lg:w-80 flex-shrink-0 border-r-2 border-[#E2D5B0] bg-[#FFFDF5] overflow-y-auto p-5">
-      <h3 className="font-['Fahkwang'] text-base font-bold text-[#1A1207] mb-4">{t.plan.checkpoints_title}</h3>
+    <aside className="hidden md:flex flex-col w-72 lg:w-80 flex-shrink-0 border-r-2 border-[#C5D9CC] bg-[#F0F8F4] overflow-y-auto p-5">
+      <h3 className="font-['Fahkwang'] text-base font-bold text-[#12201a] mb-4">{t.plan.checkpoints_title}</h3>
       <div className="space-y-2">
         {checkpoints.map((cp, i) => (
           <div
@@ -370,31 +522,31 @@ function Sidebar({ current, completed, modeColor, t }: { current: number; comple
             style={i === current ? { borderColor: modeColor, backgroundColor: `${modeColor}10` } : {}}
           >
             <div
-              className="w-8 h-8 rounded-full border-2 border-[#1A1207] flex items-center justify-center text-xs font-['Fahkwang'] font-bold flex-shrink-0"
+              className="w-8 h-8 rounded-full border-2 border-[#12201a] flex items-center justify-center text-xs font-['Fahkwang'] font-bold flex-shrink-0"
               style={{
-                backgroundColor: completed[i] ? modeColor : i === current ? "#F5A800" : "white",
-                color: completed[i] || i === current ? "white" : "#1A1207",
+                backgroundColor: completed[i] ? modeColor : i === current ? "#feb449" : "white",
+                color: completed[i] || i === current ? "white" : "#12201a",
               }}
             >
               {completed[i] ? "✓" : i + 1}
             </div>
             <div className="min-w-0">
-              <div className="font-['Fahkwang'] text-sm font-medium text-[#1A1207] truncate">{cp.name}</div>
-              <div className="font-['Sarabun'] text-[10px] text-[#1A1207]/45">{cp.subtitle}</div>
+              <div className="font-['Fahkwang'] text-sm font-medium text-[#12201a] truncate">{cp.name}</div>
+              <div className="font-['Sarabun'] text-[10px] text-[#12201a]/45">{cp.subtitle}</div>
               {i === current && <div className="font-['Sarabun'] text-[10px] mt-0.5" style={{ color: modeColor }}>{t.explore.exploring}</div>}
             </div>
           </div>
         ))}
       </div>
       <div className="mt-auto pt-6">
-        <div className="font-['Sarabun'] text-xs text-[#1A1207]/45 mb-1.5">{t.explore.progress}</div>
-        <div className="w-full bg-[#E2D5B0] rounded-full h-2.5 border border-[#1A1207]/20">
+        <div className="font-['Sarabun'] text-xs text-[#12201a]/45 mb-1.5">{t.explore.progress}</div>
+        <div className="w-full bg-[#C5D9CC] rounded-full h-2.5 border border-[#12201a]/20">
           <div
             className="h-2.5 rounded-full transition-all duration-500"
             style={{ width: `${(completed.filter(Boolean).length / checkpoints.length) * 100}%`, backgroundColor: modeColor }}
           />
         </div>
-        <div className="font-['Sarabun'] text-xs text-[#1A1207]/50 mt-1.5">
+        <div className="font-['Sarabun'] text-xs text-[#12201a]/50 mt-1.5">
           {completed.filter(Boolean).length} / {checkpoints.length} {t.explore.checkpoint}
         </div>
       </div>
@@ -409,33 +561,33 @@ function AudioBar({ checkpoint }: { checkpoint: typeof checkpoints[0] }) {
   const [progress] = useState(22);
 
   return (
-    <div className="sticky bottom-0 left-0 right-0 bg-white border-t-2 border-[#1A1207] p-4 z-20" style={{ boxShadow: "0 -4px 0 #1A1207" }}>
+    <div className="sticky bottom-0 left-0 right-0 bg-white border-t-2 border-[#12201a] p-4 z-20" style={{ boxShadow: "0 -4px 0 #12201a" }}>
       <div className="flex items-center gap-3">
-        <div className="w-11 h-11 rounded-xl border-2 border-[#1A1207] overflow-hidden flex-shrink-0 bg-[#C0D8F0]">
+        <div className="w-11 h-11 rounded-xl border-2 border-[#12201a] overflow-hidden flex-shrink-0 bg-[#b8ddd0]">
           <img src={checkpoint.image} alt="" className="w-full h-full object-cover" />
         </div>
         <div className="flex-1 min-w-0">
-          <div className="font-['Fahkwang'] text-sm text-[#1A1207] truncate mb-1">{checkpoint.name} — เรื่องเล่าจากเรือ</div>
+          <div className="font-['Fahkwang'] text-sm text-[#12201a] truncate mb-1">{checkpoint.name} — เรื่องเล่าจากเรือ</div>
           <div className="flex items-center gap-2">
-            <span className="font-['Sarabun'] text-[10px] text-[#1A1207]/45 flex-shrink-0">1:42</span>
-            <div className="flex-1 bg-[#E2D5B0] rounded-full h-1.5 relative border border-[#1A1207]/15">
-              <div className="h-1.5 rounded-full bg-[#0057B8]" style={{ width: `${progress}%` }} />
+            <span className="font-['Sarabun'] text-[10px] text-[#12201a]/45 flex-shrink-0">1:42</span>
+            <div className="flex-1 bg-[#C5D9CC] rounded-full h-1.5 relative border border-[#12201a]/15">
+              <div className="h-1.5 rounded-full bg-[#0071ce]" style={{ width: `${progress}%` }} />
               <div
-                className="absolute top-1/2 w-3 h-3 rounded-full border-2 border-[#1A1207] bg-white"
+                className="absolute top-1/2 w-3 h-3 rounded-full border-2 border-[#12201a] bg-white"
                 style={{ left: `${progress}%`, transform: "translate(-50%, -50%)" }}
               />
             </div>
-            <span className="font-['Sarabun'] text-[10px] text-[#1A1207]/45 flex-shrink-0">7:30</span>
+            <span className="font-['Sarabun'] text-[10px] text-[#12201a]/45 flex-shrink-0">7:30</span>
           </div>
         </div>
         <button
           onClick={() => setPlaying(p => !p)}
-          className="w-10 h-10 rounded-full border-2 border-[#1A1207] flex items-center justify-center flex-shrink-0 bg-[#0057B8] text-white"
-          style={{ boxShadow: "2px 2px 0 #1A1207" }}
+          className="w-10 h-10 rounded-full border-2 border-[#12201a] flex items-center justify-center flex-shrink-0 bg-[#0071ce] text-white"
+          style={{ boxShadow: "2px 2px 0 #12201a" }}
         >
           {playing ? <Pause size={15} /> : <Play size={15} />}
         </button>
-        <Volume2 size={15} className="text-[#1A1207]/35 flex-shrink-0" />
+        <Volume2 size={15} className="text-[#12201a]/35 flex-shrink-0" />
       </div>
     </div>
   );
@@ -454,16 +606,20 @@ export function Explore() {
   const cfg = modeConfig[effectiveMode];
   const cp = checkpoints[currentCheckpoint];
 
-  const [storyExpanded, setStoryExpanded] = useState(false);
+  const [storyCategory, setStoryCategory] = useState<"history" | "funFact" | "horror" | null>(null);
   const [viewMode, setViewMode] = useState<"listen" | "read">("listen");
-  const [bikeCode, setBikeCode] = useState("");
   const [showLottery, setShowLottery] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [showEndConfirm, setShowEndConfirm] = useState(false);
+  const [parkingCode, setParkingCode] = useState("");
 
   const selectedAnswer = checkpointAnswers[currentCheckpoint];
   const isCorrect = selectedAnswer === cp.correct;
   const isCompleted = completedCheckpoints[currentCheckpoint];
   const allDone = completedCheckpoints.every(Boolean);
+
+  // Bike parking code validation
+  const expectedParkingCode = `AW-${String(currentCheckpoint + 1).padStart(4, '0')}`;
+  const isParkingCodeCorrect = parkingCode.trim().toUpperCase() === expectedParkingCode;
 
   const handleAnswer = (i: number) => {
     if (isCompleted) return;
@@ -471,16 +627,42 @@ export function Explore() {
   };
 
   const handleSubmitAnswer = () => {
-    if (!isCorrect || isCompleted) return;
-    dispatch({ type: "COMPLETE_CHECKPOINT", idx: currentCheckpoint });
-    setShowLottery(true);
+    // For bike mode, check parking code; for other modes, check quiz answer
+    const isValid = effectiveMode === "bike" ? isParkingCodeCorrect : isCorrect;
+    if (!isValid || isCompleted) return;
+
+    // Try to get GPS coordinates
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const coordinates = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          };
+          dispatch({ type: "COMPLETE_CHECKPOINT", idx: currentCheckpoint, coordinates });
+        },
+        (error) => {
+          // If GPS fails, complete without coordinates
+          dispatch({ type: "COMPLETE_CHECKPOINT", idx: currentCheckpoint });
+        }
+      );
+    } else {
+      // If geolocation not supported, complete without coordinates
+      dispatch({ type: "COMPLETE_CHECKPOINT", idx: currentCheckpoint });
+    }
   };
 
-  const handleBikeSubmit = () => {
-    if (!bikeCode.trim()) return;
-    dispatch({ type: "COMPLETE_CHECKPOINT", idx: currentCheckpoint });
-    setShowLottery(true);
-  };
+  // Start journey timer on first load
+  useEffect(() => {
+    if (state.startTime === null) {
+      dispatch({ type: "START_JOURNEY" });
+    }
+  }, [state.startTime, dispatch]);
+
+  // Reset parking code when checkpoint changes
+  useEffect(() => {
+    setParkingCode("");
+  }, [currentCheckpoint]);
 
   const handleLotteryAccept = (challenge: LotteryChallenge) => {
     dispatch({ type: "ACTIVATE_LOTTERY", id: challenge.id });
@@ -488,60 +670,109 @@ export function Explore() {
     navigate("/lottery/active");
   };
 
-  const handleNext = () => {
+  const handleLotterySkip = () => {
+    setShowLottery(false);
     if (currentCheckpoint < checkpoints.length - 1) {
       dispatch({ type: "ADVANCE_CHECKPOINT" });
-      setBikeCode("");
-      setStoryExpanded(false);
+      setStoryCategory(null);
     }
+  };
+
+  const handleNext = () => {
+    setShowLottery(true);
+  };
+
+  const handleEndRoute = () => {
+    setShowEndConfirm(false);
+    navigate("/summary");
   };
 
   return (
     <>
       <AnimatePresence>
+        {showEndConfirm && (
+          <EndRouteModal
+            onConfirm={handleEndRoute}
+            onCancel={() => setShowEndConfirm(false)}
+          />
+        )}
         {showLottery && (
           <LotteryModal
             onAccept={handleLotteryAccept}
-            onSkip={() => setShowLottery(false)}
+            onSkip={handleLotterySkip}
+          />
+        )}
+        {storyCategory && isCompleted && (
+          <StoryModal
+            checkpoint={cp}
+            category={storyCategory}
+            onClose={() => setStoryCategory(null)}
+            showActions={currentCheckpoint < checkpoints.length - 1}
+            onDrawLottery={currentCheckpoint < checkpoints.length - 1 ? () => {
+              setStoryCategory(null);
+              setShowLottery(true);
+            } : undefined}
+            onNextCheckpoint={currentCheckpoint < checkpoints.length - 1 ? () => {
+              setStoryCategory(null);
+              dispatch({ type: "ADVANCE_CHECKPOINT" });
+            } : undefined}
+            modeColor={cfg.color}
+            t={t}
           />
         )}
       </AnimatePresence>
 
-      <div className="flex bg-[#FFFDF5] h-[calc(100vh-120px)] md:h-[calc(100vh-56px)]">
+      <div className="flex bg-[#F0F8F4] h-[calc(100vh-120px)] md:h-[calc(100vh-56px)]">
         <div className="flex flex-1 overflow-hidden">
           <Sidebar current={currentCheckpoint} completed={completedCheckpoints} modeColor={cfg.color} t={t} />
 
           <div className="flex-1 flex flex-col overflow-y-auto">
             {/* Mobile progress */}
-            <div className="flex items-center justify-center py-4 md:hidden border-b border-[#E2D5B0]">
+            <div className="flex items-center justify-between px-4 py-4 md:hidden border-b border-[#C5D9CC]">
               <ProgressDots total={6} current={currentCheckpoint} color={cfg.color} />
+              <button
+                onClick={() => setShowEndConfirm(true)}
+                className="font-['Fahkwang'] text-xs px-3 py-2 rounded-full border-2 border-[#12201a] bg-white text-[#12201a] hover:bg-[#ec3faa] hover:text-white transition-all flex items-center gap-1"
+                style={{ boxShadow: "2px 2px 0 #12201a" }}
+              >
+                <X size={12} />
+                จบเส้นทาง
+              </button>
             </div>
 
-            {/* Boat toggle */}
-            {effectiveMode === "boat" && (
-              <div className="flex items-center justify-between px-4 md:px-6 py-3 border-b border-[#E2D5B0]">
-                <div className="hidden md:block">
-                  <ProgressDots total={6} current={currentCheckpoint} color={cfg.color} />
-                </div>
-                <div className="flex rounded-full border-2 border-[#1A1207] overflow-hidden ml-auto" style={{ boxShadow: "2px 2px 0 #1A1207" }}>
-                  {(["listen", "read"] as const).map(m => (
-                    <button
-                      key={m}
-                      onClick={() => setViewMode(m)}
-                      className={`font-['Fahkwang'] text-xs px-4 py-2 transition-colors ${viewMode === m ? "text-white" : "bg-white text-[#1A1207]"}`}
-                      style={viewMode === m ? { backgroundColor: cfg.color } : {}}
-                    >
-                      {m === "listen" ? "🎧 ฟัง" : "📖 อ่าน"}
-                    </button>
-                  ))}
-                </div>
+            {/* Desktop header / Boat toggle */}
+            <div className="hidden md:flex items-center justify-between px-4 md:px-6 py-3 border-b border-[#C5D9CC]">
+              <ProgressDots total={6} current={currentCheckpoint} color={cfg.color} />
+              <div className="flex items-center gap-3">
+                {effectiveMode === "boat" && (
+                  <div className="flex rounded-full border-2 border-[#12201a] overflow-hidden" style={{ boxShadow: "2px 2px 0 #12201a" }}>
+                    {(["listen", "read"] as const).map(m => (
+                      <button
+                        key={m}
+                        onClick={() => setViewMode(m)}
+                        className={`font-['Fahkwang'] text-xs px-4 py-2 transition-colors ${viewMode === m ? "text-white" : "bg-white text-[#12201a]"}`}
+                        style={viewMode === m ? { backgroundColor: cfg.color } : {}}
+                      >
+                        {m === "listen" ? "🎧 ฟัง" : "📖 อ่าน"}
+                      </button>
+                    ))}
+                  </div>
+                )}
+                <button
+                  onClick={() => setShowEndConfirm(true)}
+                  className="font-['Fahkwang'] text-xs px-4 py-2 rounded-full border-2 border-[#12201a] bg-white text-[#12201a] hover:bg-[#ec3faa] hover:text-white transition-all flex items-center gap-1.5"
+                  style={{ boxShadow: "2px 2px 0 #12201a" }}
+                >
+                  <X size={14} />
+                  จบเส้นทาง
+                </button>
               </div>
-            )}
+            </div>
 
             {/* Hero image */}
-            <div className="w-full h-52 md:h-72 relative overflow-hidden flex-shrink-0 bg-[#E2D5B0]">
+            <div className="w-full h-52 md:h-72 relative overflow-hidden flex-shrink-0 bg-[#C5D9CC]">
               <img src={cp.image} alt={cp.name} className="w-full h-full object-cover" />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#1A1207]/50 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#12201a]/50 to-transparent" />
               <div className="absolute bottom-4 left-4 right-4">
                 <div className="flex items-center gap-2 mb-1">
                   <div className="w-2.5 h-2.5 rounded-full border border-white" style={{ backgroundColor: cfg.color }} />
@@ -554,122 +785,141 @@ export function Explore() {
 
             {/* Content area */}
             <div className="flex-1 px-4 md:px-8 py-5 space-y-5">
-              {/* Story card */}
-              <Card className="p-5" style={{ borderLeft: `4px solid ${cfg.color}` }}>
-                <div className="flex items-center gap-2 mb-3">
-                  <div className="w-2 h-2 rounded-full" style={{ backgroundColor: cfg.color }} />
-                  <span className="font-['Fahkwang'] text-sm" style={{ color: cfg.color }}>{t.explore.story}</span>
-                </div>
-                <p className="font-['Sarabun'] text-[#1A1207]/75 text-sm leading-relaxed">
-                  {storyExpanded ? cp.story : cp.teaser}
-                </p>
-                <button
-                  onClick={() => setStoryExpanded(e => !e)}
-                  className="mt-3 flex items-center gap-1 font-['Fahkwang'] text-xs text-[#1A1207]/50 hover:text-[#1A1207] transition-colors"
-                >
-                  {storyExpanded ? (<><ChevronUp size={14} /> ย่อลง</>) : (<><ChevronDown size={14} /> อ่านเพิ่มเติม</>)}
-                </button>
-              </Card>
+              {/* Quiz Section — always shown first */}
+              <div>
+                <h4 className="font-['Fahkwang'] text-lg font-bold text-[#12201a] mb-2">ยืนยันว่าคุณอยู่ที่จุดนี้</h4>
 
-              {/* Mode interaction */}
-              {effectiveMode === "bike" ? (
-                <div>
-                  <h4 className="font-['Fahkwang'] text-lg font-bold text-[#1A1207] mb-3">สแกนรหัสสถานี</h4>
-                  <Card className="p-5 mb-4">
-                    <div
-                      className="w-full h-44 rounded-2xl border-2 border-dashed border-[#7B2FBE] flex flex-col items-center justify-center gap-3 mb-4 bg-[#7B2FBE]/5 cursor-pointer"
-                      onClick={() => fileInputRef.current?.click()}
-                    >
-                      <QrCode size={40} className="text-[#7B2FBE]/40" />
-                      <span className="font-['Sarabun'] text-sm text-[#7B2FBE]/60">แตะเพื่อสแกน QR Code</span>
-                      <input ref={fileInputRef} type="file" accept="image/*" className="hidden" />
-                    </div>
-                    <div className="text-center mb-3">
-                      <span className="font-['Sarabun'] text-xs text-[#1A1207]/40">หรือ พิมพ์รหัสสถานี</span>
-                    </div>
-                    <div className="flex gap-2">
-                      <input
-                        value={bikeCode}
-                        onChange={e => setBikeCode(e.target.value)}
-                        placeholder="รหัสสถานี เช่น BK-03"
-                        disabled={isCompleted}
-                        className="flex-1 px-4 py-3 font-['Sarabun'] border-2 border-[#E2D5B0] rounded-full focus:outline-none focus:border-[#7B2FBE] text-[#1A1207] placeholder:text-[#1A1207]/25 text-sm disabled:opacity-50"
-                      />
-                      <button
-                        onClick={handleBikeSubmit}
-                        disabled={!bikeCode.trim() || isCompleted}
-                        className="px-5 py-3 font-['Fahkwang'] text-sm text-white rounded-full border-2 border-[#1A1207] disabled:opacity-40"
-                        style={{ backgroundColor: "#7B2FBE", boxShadow: "2px 2px 0 #1A1207" }}
-                      >
-                        ยืนยัน
-                      </button>
-                    </div>
-                  </Card>
-                </div>
-              ) : (
-                <div>
-                  <h4 className="font-['Fahkwang'] text-lg font-bold text-[#1A1207] mb-2">คำถามประจำจุด</h4>
-                  <p className="font-['Sarabun'] text-[#1A1207]/75 text-sm mb-4 leading-relaxed">{cp.question}</p>
-                  <div className="grid grid-cols-2 gap-3">
-                    {cp.options.map((opt, i) => (
-                      <button
-                        key={i}
-                        onClick={() => handleAnswer(i)}
-                        disabled={isCompleted}
-                        className={`p-4 rounded-2xl border-2 font-['Sarabun'] text-sm text-left transition-all disabled:cursor-default ${
-                          selectedAnswer === i
-                            ? i === cp.correct
-                              ? "border-[#1A1207] text-white"
-                              : "bg-[#E8340A]/10 border-[#E8340A] text-[#E8340A]"
-                            : "bg-white border-[#E2D5B0] text-[#1A1207] hover:border-[#1A1207] disabled:hover:border-[#E2D5B0]"
-                        }`}
-                        style={selectedAnswer === i && i === cp.correct ? { backgroundColor: cfg.color, boxShadow: "3px 3px 0 #1A1207" } : {}}
-                      >
-                        {opt}
-                      </button>
-                    ))}
-                  </div>
-                  {selectedAnswer !== null && !isCompleted && (
-                    <div className="mt-4 flex flex-col gap-3">
-                      <div
-                        className="p-4 rounded-2xl border-2 border-[#1A1207] font-['Sarabun'] text-sm"
-                        style={{ backgroundColor: isCorrect ? `${cfg.color}15` : "#E8340A10", color: isCorrect ? cfg.color : "#E8340A" }}
-                      >
-                        {isCorrect ? `✓ ${t.explore.correct} ${cp.options[cp.correct]}` : `✗ ${t.explore.wrong}`}
+                {effectiveMode === "bike" ? (
+                  // Bike mode: parking station code input
+                  <>
+                    <p className="font-['Sarabun'] text-[#12201a]/75 text-sm mb-4 leading-relaxed">
+                      กรอกรหัสจุดจอดจักรยานเพื่อยืนยันว่าคุณอยู่ที่จุดนี้
+                    </p>
+                    <input
+                      type="text"
+                      value={parkingCode}
+                      onChange={(e) => setParkingCode(e.target.value)}
+                      disabled={isCompleted}
+                      placeholder="เช่น AW-0001"
+                      className="w-full p-4 rounded-2xl border-2 border-[#C5D9CC] font-['Sarabun'] text-sm focus:outline-none focus:border-[#12201a] disabled:bg-gray-50 disabled:cursor-default mb-4"
+                    />
+                    {parkingCode.trim() !== "" && !isCompleted && (
+                      <div className="flex flex-col gap-3">
+                        <div
+                          className="p-4 rounded-2xl border-2 border-[#12201a] font-['Sarabun'] text-sm"
+                          style={{ backgroundColor: isParkingCodeCorrect ? `${cfg.color}15` : "#ec3faa10", color: isParkingCodeCorrect ? cfg.color : "#ec3faa" }}
+                        >
+                          {isParkingCodeCorrect ? `✓ รหัสถูกต้อง` : `✗ รหัสไม่ถูกต้อง`}
+                        </div>
+                        {isParkingCodeCorrect && (
+                          <PrimaryButton onClick={handleSubmitAnswer} className="flex items-center justify-center gap-2 py-3">
+                            ยืนยันว่าอยู่ที่จุดนี้ ✓
+                          </PrimaryButton>
+                        )}
                       </div>
-                      {isCorrect && (
-                        <PrimaryButton onClick={handleSubmitAnswer} className="flex items-center justify-center gap-2 py-3">
-                          บันทึกคำตอบ ✓
-                        </PrimaryButton>
-                      )}
+                    )}
+                  </>
+                ) : (
+                  // Walk/Boat mode: quiz questions
+                  <>
+                    <p className="font-['Sarabun'] text-[#12201a]/75 text-sm mb-4 leading-relaxed">{cp.question}</p>
+                    <div className="grid grid-cols-2 gap-3">
+                      {cp.options.map((opt, i) => (
+                        <button
+                          key={i}
+                          onClick={() => handleAnswer(i)}
+                          disabled={isCompleted}
+                          className={`p-4 rounded-2xl border-2 font-['Sarabun'] text-sm text-left transition-all disabled:cursor-default ${
+                            selectedAnswer === i
+                              ? i === cp.correct
+                                ? "border-[#12201a] text-white"
+                                : "bg-[#ec3faa]/10 border-[#ec3faa] text-[#ec3faa]"
+                              : "bg-white border-[#C5D9CC] text-[#12201a] hover:border-[#12201a] disabled:hover:border-[#C5D9CC]"
+                          }`}
+                          style={selectedAnswer === i && i === cp.correct ? { backgroundColor: cfg.color, boxShadow: "3px 3px 0 #12201a" } : {}}
+                        >
+                          {opt}
+                        </button>
+                      ))}
                     </div>
-                  )}
-                </div>
-              )}
+                    {selectedAnswer !== null && !isCompleted && (
+                      <div className="mt-4 flex flex-col gap-3">
+                        <div
+                          className="p-4 rounded-2xl border-2 border-[#12201a] font-['Sarabun'] text-sm"
+                          style={{ backgroundColor: isCorrect ? `${cfg.color}15` : "#ec3faa10", color: isCorrect ? cfg.color : "#ec3faa" }}
+                        >
+                          {isCorrect ? `✓ ${t.explore.correct}` : `✗ ${t.explore.wrong}`}
+                        </div>
+                        {isCorrect && (
+                          <PrimaryButton onClick={handleSubmitAnswer} className="flex items-center justify-center gap-2 py-3">
+                            ยืนยันว่าอยู่ที่จุดนี้ ✓
+                          </PrimaryButton>
+                        )}
+                      </div>
+                    )}
+                  </>
+                )}
+              </div>
 
+              {/* Story Category Selection — shown after correct answer */}
               {isCompleted && (
-                <div
-                  className="p-4 rounded-2xl border-2 border-[#1A1207] font-['Sarabun'] text-sm"
-                  style={{ backgroundColor: `${cfg.color}15`, color: cfg.color }}
-                >
-                  {t.explore.complete_cp}
-                </div>
+                <>
+                  <div>
+                    <h4 className="font-['Fahkwang'] text-lg font-bold text-[#12201a] mb-3">เลือกเรื่องราวที่สนใจ</h4>
+                    <div className="grid grid-cols-3 gap-3">
+                      {[
+                        { key: "history" as const, label: "ประวัติศาสตร์", emoji: "📜", color: "#0071ce" },
+                        { key: "funFact" as const, label: "ข้อเท็จจริง", emoji: "💡", color: "#feb449" },
+                        { key: "horror" as const, label: "เรื่องลี้ลับ", emoji: "👻", color: "#ec3faa" },
+                      ].map(cat => (
+                        <button
+                          key={cat.key}
+                          onClick={() => {
+                            setStoryCategory(cat.key);
+                            dispatch({ type: "SELECT_STORY_CATEGORY", idx: currentCheckpoint, category: cat.key });
+                          }}
+                          className={`flex flex-col items-center gap-2 p-4 rounded-2xl border-2 transition-all ${
+                            storyCategory === cat.key
+                              ? "border-[#12201a] text-white"
+                              : "bg-white border-[#C5D9CC] text-[#12201a] hover:border-[#12201a]"
+                          }`}
+                          style={storyCategory === cat.key ? { backgroundColor: cat.color, boxShadow: "3px 3px 0 #12201a" } : {}}
+                        >
+                          <span className="text-2xl">{cat.emoji}</span>
+                          <span className="font-['Fahkwang'] text-xs font-medium text-center">{cat.label}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </>
               )}
 
               {isCompleted && (
                 currentCheckpoint < checkpoints.length - 1 ? (
                   <button
-                    onClick={handleNext}
-                    className="w-full font-['Fahkwang'] text-base py-4 text-white border-2 border-[#1A1207] rounded-full flex items-center justify-center gap-2 transition-all active:translate-x-[2px] active:translate-y-[2px]"
-                    style={{ backgroundColor: cfg.color, boxShadow: "4px 4px 0 #1A1207" }}
+                    onClick={() => {
+                      dispatch({ type: "ADVANCE_CHECKPOINT" });
+                      setStoryCategory(null);
+                    }}
+                    className="w-full p-4 rounded-2xl border-2 border-[#12201a] font-['Sarabun'] text-sm transition-all hover:scale-[1.02] active:translate-x-[2px] active:translate-y-[2px]"
+                    style={{ backgroundColor: `${cfg.color}15`, color: cfg.color, boxShadow: "3px 3px 0 #12201a" }}
                   >
-                    {t.explore.next_cp} <ArrowRight size={18} />
+                    {t.explore.complete_cp} — คลิกเพื่อไปจุดถัดไป →
                   </button>
-                ) : allDone ? (
-                  <PrimaryButton onClick={() => navigate("/summary")} className="w-full py-4 flex items-center justify-center gap-2 text-base">
-                    {t.explore.finish} 🎉 <ArrowRight size={18} />
-                  </PrimaryButton>
-                ) : null
+                ) : (
+                  <div
+                    className="p-4 rounded-2xl border-2 border-[#12201a] font-['Sarabun'] text-sm"
+                    style={{ backgroundColor: `${cfg.color}15`, color: cfg.color }}
+                  >
+                    {t.explore.complete_cp}
+                  </div>
+                )
+              )}
+
+              {isCompleted && allDone && (
+                <PrimaryButton onClick={() => navigate("/summary")} className="w-full py-4 flex items-center justify-center gap-2 text-base">
+                  {t.explore.finish} 🎉 <ArrowRight size={18} />
+                </PrimaryButton>
               )}
 
               <div className="h-4" />

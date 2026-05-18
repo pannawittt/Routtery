@@ -23,16 +23,16 @@ const t = {
     // Splash
     splash: {
       tagline: "Bangkok Canal Explorer",
-      subtitle_th: "สำรวจคลองผดุงกรุงเกษม\nผ่านเรื่องราว วัฒนธรรม และเส้นทาง",
-      subtitle_en: "Explore Bangkok's historic Phaduong Krung Kasem Canal through stories, culture and your chosen route.",
-      start: "เริ่มสำรวจ",
+      subtitle_th: "มาสำรวจเรื่องราว วัฒนธรรม และผู้คน\nบนเส้นทางคลองแห่งประวัติศาสตร์ไปด้วยกัน!",
+      subtitle_en: " \n \n \n ",
+      start: "เริ่มเลย",
       learn_more: "เรียนรู้เพิ่มเติม",
       canal_label: "คลองผดุงกรุงเกษม",
     },
     // Plan
     plan: {
       title: "เลือกเส้นทาง",
-      subtitle: "กำหนดต้นทางและปลายทางของการสำรวจ",
+      subtitle: "กำหนดต้นทางของการสำรวจ",
       origin_label: "ต้นทาง",
       origin_required: "จำเป็นต้องกรอก",
       origin_placeholder: "ค้นหาหรือพิมพ์จุดเริ่มต้น...",
@@ -166,7 +166,7 @@ const t = {
     splash: {
       tagline: "Bangkok Canal Explorer",
       subtitle_th: "Explore Phaduong Krung Kasem Canal\nthrough stories, culture and your route",
-      subtitle_en: "Discover Bangkok's historic canal with checkpoints, quizzes, and local secrets at every stop.",
+      subtitle_en: " ",
       start: "Start Exploring",
       learn_more: "Learn More",
       canal_label: "Phaduong Krung Kasem Canal",

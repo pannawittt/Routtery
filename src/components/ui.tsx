@@ -47,14 +47,7 @@ export function SecondaryButton({ children, onClick, className = "" }: {
   className?: string;
 }) {
   return (
-    <button
-      type="button"
-      onClick={onClick}
-      className={`font-['Fahkwang'] border-2 border-[#1A1207] px-6 py-3 rounded-full bg-white text-[#1A1207] transition-all active:translate-x-[2px] active:translate-y-[2px] hover:bg-[#FFFDF5] ${className}`}
-      style={{ boxShadow: "3px 3px 0 #1A1207" }}
-    >
-      {children}
-    </button>
+    null
   );
 }
 

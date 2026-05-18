@@ -116,7 +116,7 @@ export function LotteryActive() {
     if (!file || isDone) return;
     const url = URL.createObjectURL(file);
     setPreviews(prev => [...prev, url]);
-    dispatch({ type: "ADD_PHOTO", id: challenge.id });
+    dispatch({ type: "ADD_PHOTO", id: challenge.id, photoUrl: url });
     e.target.value = "";
     if (uploaded + 1 >= challenge.requiredPhotos) {
       setTimeout(() => {

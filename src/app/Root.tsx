@@ -1,3 +1,5 @@
+import image_logo_2 from '@/imports/logo-2.png'
+import image_logo from '@/imports/logo.png'
 import { useState } from "react";
 import { Link, NavLink, Outlet, useLocation, useNavigate } from "react-router";
 import { Menu, X, Map, Navigation, Ticket, BookOpen } from "lucide-react";
@@ -119,16 +121,13 @@ export function Root() {
     <div className="min-h-screen bg-[#FFFDF5]">
       {/* Top nav — hidden on splash */}
       {!isSplash && (
-        <header className="fixed top-0 left-0 right-0 z-[100] bg-[#FFFDF5] border-b-2 border-[#E2D5B0] h-14 flex items-center justify-between px-4 md:px-6">
-          <Link to="/" className="font-['Fahkwang'] text-lg font-bold text-[#E8340A] tracking-wide flex-shrink-0">
-            Routtery
+        <header className="fixed top-0 left-0 right-0 z-[100] bg-[#FFFDF5] border-b-2 border-[#E2D5B0] h-14 flex items-center justify-center px-4 md:px-6 relative">
+          <Link to="/" className="flex-shrink-0">
+            <img src={image_logo_2} alt="Routtery" className="h-8" />
           </Link>
 
-          {/* Title — desktop only */}
-          <span className="font-['Fahkwang'] text-sm font-medium text-[#1A1207] hidden md:block truncate mx-4">{title}</span>
-
-          {/* Right side controls */}
-          <div className="flex items-center gap-2 flex-shrink-0">
+          {/* Right side controls — absolute positioned */}
+          <div className="absolute right-4 md:right-6 flex items-center gap-2">
             {/* TH|EN toggle */}
             <button
               onClick={() => dispatch({ type: "SET_LANG", lang: lang === "TH" ? "EN" : "TH" })}
@@ -148,7 +147,6 @@ export function Root() {
                 {modeConfig[mode].emoji} {modeLabel(mode)}
               </button>
             )}
-
           </div>
         </header>
       )}
@@ -159,7 +157,7 @@ export function Root() {
           <div className="absolute inset-0 bg-[#1A1207]/50" onClick={() => setDrawerOpen(false)} />
           <div className="relative w-72 bg-[#FFFDF5] border-r-2 border-[#1A1207] h-full flex flex-col p-6 z-10" style={{ boxShadow: "6px 0 0 #1A1207" }}>
             <div className="flex items-center justify-between mb-8">
-              <span className="font-['Fahkwang'] text-xl font-bold text-[#E8340A]">Routtery</span>
+              <img src="/src/imports/logo.png" alt="Routtery" className="h-7" />
               <button onClick={() => setDrawerOpen(false)} className="w-8 h-8 border-2 border-[#1A1207] rounded-full flex items-center justify-center">
                 <X size={15} />
               </button>
@@ -190,7 +188,7 @@ export function Root() {
       )}
 
       {/* Page content */}
-      <main className={`${isSplash ? "" : "pt-14"} pb-24 md:pb-0`}>
+      <main className="pb-24 md:pb-0">
         <Outlet />
       </main>
 
