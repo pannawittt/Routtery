@@ -34,15 +34,15 @@ const t = {
       title: "เลือกเส้นทาง",
       subtitle: " ",
       origin_label: "ต้นทาง",
-      origin_required: "จำเป็นต้องกรอก",
-      origin_placeholder: "ค้นหาหรือพิมพ์จุดเริ่มต้น...",
+      origin_required: "จำเป็นต้องเลือก",
+      origin_placeholder: "ค้นหาจุดเริ่มต้น..",
       dest_label: "ปลายทาง",
       dest_optional: "(ไม่บังคับ)",
       dest_placeholder: "ค้นหาหรือพิมพ์จุดหมาย...",
       checkpoints_title: "จุดแวะพัก",
       checkpoints_hint: "เลือกจุดที่ต้องการแวะ (ไม่บังคับ)",
       next: "ถัดไป",
-      fill_origin: "กรุณากรอกต้นทางก่อนดำเนินการต่อ",
+      fill_origin: "กรุณาเลือกต้นทางก่อนดำเนินการต่อ",
     },
     // SelectMode
     mode: {

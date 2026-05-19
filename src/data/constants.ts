@@ -25,6 +25,9 @@ export interface CheckpointData {
   question: string;
   options: string[];
   correct: number;
+  boatQuestion: string;
+  boatOptions: string[];
+  boatCorrect: number;
   lat: number;
   lng: number;
 }
@@ -54,6 +57,9 @@ export const checkpoints: CheckpointData[] = [
       "สะพานขาว",
     ],
     correct: 1,
+    boatQuestion: "[เรือ] คำถามสำหรับจุดตลาดน้อย — กรุณาแก้ไขคำถามนี้",
+    boatOptions: ["ตัวเลือก ก", "ตัวเลือก ข", "ตัวเลือก ค", "ตัวเลือก ง"],
+    boatCorrect: 0,
     lat: 13.73206,
     lng: 100.514999,
   },
@@ -77,6 +83,9 @@ export const checkpoints: CheckpointData[] = [
       "หน้าสถานีรถไฟกรุงเทพ (หัวลำโพง) มีอนุสาวรีย์ช้างสีดำอยู่ ช้างที่อยู่บนนั้นมีทั้งหมดกี่เศียร?",
     options: ["3", "4", "5", "10"],
     correct: 0,
+    boatQuestion: "หากคุณถึงท่าเรือหัวลำโพงแล้ว ลองสังเกตชื่อเรือที่บริเวณข้างเรือ แล้วบอกเราทีว่าชื่อเรือมีลักษณะอย่างไร",
+    boatOptions: ["ผดุง + ตัวเลข", "ผดุง + ชื่อเดือน", "ผดุง + ปีนักษัตร", "ผดุง + ชื่อดาว"],
+    boatCorrect: 1,
     lat: 13.738095,
     lng: 100.515669,
   },
@@ -99,6 +108,9 @@ export const checkpoints: CheckpointData[] = [
     question: "อาคารโบ๊เบ๊ สเตชั่นถูกทาด้วยสีอะไร?",
     options: ["ขาว", "ฟ้า", "เขียว", "ไม่ถูกทาสี"],
     correct: 2,
+    boatQuestion: "คุณเห็นทางแยกที่มีอีกคลองมาตัดแล้วหรือยัง",
+    boatOptions: ["ยังเลย", "เห็นแล้ว"],
+    boatCorrect: 1,
     lat: 13.751478,
     lng: 100.517557,
   },
@@ -124,9 +136,12 @@ export const checkpoints: CheckpointData[] = [
       "กระทรวงพัฒนาสังคมและความมั่นคงของมนุษย์",
       "กระทรวงกลาโหม",
       "กระทรวงคมนาคม",
-      "กระทรวงดิทัลเพื่อเศรษฐกิจและสังคม",
+      "กระทรวงดิจิทัลเพื่อเศรษฐกิจและสังคม",
     ],
     correct: 0,
+    boatQuestion: "อาคารตลาดสะพานขาวที่มีทรงโค้งๆ ถูกทาด้วยสีอะไร",
+    boatOptions: ["ครีมๆ อิฐๆ", "แดงแป๊ด", "เขียวมาเลย", "ไม่มีอาคารนี้อยู่แถวนี้"],
+    boatCorrect: 0,
     lat: 13.756622,
     lng: 100.516321,
   },
@@ -154,6 +169,9 @@ export const checkpoints: CheckpointData[] = [
       "กองทัพอวกาศ",
     ],
     correct: 1,
+    boatQuestion: "คุณได้ลอดสะพานสีเขียวที่อยู่ติดๆ กันสามสะพานมาแล้วใช่หรือไม่",
+    boatOptions: ["ใช่", "ยังไม่ลอด"],
+    boatCorrect: 0,
     lat: 13.763657,
     lng: 100.509423,
   },
@@ -177,6 +195,9 @@ export const checkpoints: CheckpointData[] = [
       "ถนนที่ตัดกับถนนกรุงเกษมบริเวณสะพานเทเวศรนฤมิตรคือถนนใด?",
     options: ["ถนนลูกหลวง", "ถนนหลานหลวง", "ถนนราชดำเนินนอก", "ถนนสามเสน"],
     correct: 3,
+    boatQuestion: "ท่าเรือเทเวศร์มีท่าปล่อยรถเมล์สายอะไรอยู่ใกล้ๆ",
+    boatOptions: ["21", "67", "53", "1"],
+    boatCorrect: 2,
     lat: 13.769756,
     lng: 100.503858,
   },

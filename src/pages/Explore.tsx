@@ -1,4 +1,9 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
+import audio2 from "../imports/2-1.mp3";
+import audio3 from "../imports/3_ver2-1.mp3";
+import audio4 from "../imports/4_ver2-1.mp3";
+import audio5 from "../imports/5_ver2-1.mp3";
+import audio6 from "../imports/6-1.mp3";
 import { useNavigate } from "react-router";
 import { Play, Pause, ArrowRight, Volume2, X } from "lucide-react";
 import { Card, PrimaryButton, ProgressDots } from "@/components/ui";
@@ -540,28 +545,103 @@ function Sidebar({ current, completed, modeColor, t }: { current: number; comple
 
 // ─── AUDIO BAR ────────────────────────────────────────────────────────────────
 
-function AudioBar({ checkpoint }: { checkpoint: typeof checkpoints[0] }) {
+const AUDIO_MAP: Record<number, string> = {
+  1: audio2,
+  2: audio3,
+  3: audio4,
+  4: audio5,
+  5: audio6,
+};
+
+function fmtTime(secs: number) {
+  if (!isFinite(secs)) return "0:00";
+  const m = Math.floor(secs / 60);
+  const s = Math.floor(secs % 60).toString().padStart(2, "0");
+  return `${m}:${s}`;
+}
+
+function AudioBar({ checkpoint, inline }: { checkpoint: typeof checkpoints[0]; inline?: boolean }) {
+  const audioRef = useRef<HTMLAudioElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
   const [playing, setPlaying] = useState(false);
-  const [progress] = useState(22);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+
+  const src = AUDIO_MAP[checkpoint.id] ?? AUDIO_MAP[1];
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    audio.pause();
+    audio.src = src;
+    audio.load();
+    setCurrentTime(0);
+    setDuration(0);
+    setPlaying(false);
+  }, [src]);
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    const onTime = () => setCurrentTime(audio.currentTime);
+    const onMeta = () => setDuration(audio.duration);
+    const onEnded = () => setPlaying(false);
+    audio.addEventListener("timeupdate", onTime);
+    audio.addEventListener("loadedmetadata", onMeta);
+    audio.addEventListener("ended", onEnded);
+    return () => {
+      audio.removeEventListener("timeupdate", onTime);
+      audio.removeEventListener("loadedmetadata", onMeta);
+      audio.removeEventListener("ended", onEnded);
+    };
+  }, []);
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    if (playing) audio.play().catch(() => setPlaying(false));
+    else audio.pause();
+  }, [playing]);
+
+  const seek = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    const audio = audioRef.current;
+    const track = trackRef.current;
+    if (!audio || !track || !duration) return;
+    const rect = track.getBoundingClientRect();
+    const ratio = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+    audio.currentTime = ratio * duration;
+  }, [duration]);
+
+  const progress = duration > 0 ? (currentTime / duration) * 100 : 0;
 
   return (
-    <div className="sticky bottom-0 left-0 right-0 bg-white border-t-2 border-[#12201a] p-4 z-20" style={{ boxShadow: "0 -4px 0 #12201a" }}>
+    <div
+      className={inline
+        ? "bg-white border-2 border-[#12201a] rounded-2xl p-4"
+        : "sticky bottom-0 left-0 right-0 bg-white border-t-2 border-[#12201a] p-4 z-20"}
+      style={inline ? { boxShadow: "4px 4px 0 #12201a" } : { boxShadow: "0 -4px 0 #12201a" }}
+    >
+      <audio ref={audioRef} preload="metadata" />
       <div className="flex items-center gap-3">
         <div className="w-11 h-11 rounded-xl border-2 border-[#12201a] overflow-hidden flex-shrink-0 bg-[#b8ddd0]">
           <img src={checkpoint.image} alt="" className="w-full h-full object-cover" />
         </div>
         <div className="flex-1 min-w-0">
-          <div className="font-['Anuphan'] text-sm text-[#12201a] truncate mb-1">{checkpoint.name} — เรื่องเล่าจากเรือ</div>
+          <div className="font-['Anuphan'] text-sm text-[#12201a] truncate mb-1">{checkpoint.name} — Audio Guide</div>
           <div className="flex items-center gap-2">
-            <span className="font-['Bai_Jamjuree'] text-[10px] text-[#12201a]/45 flex-shrink-0">1:42</span>
-            <div className="flex-1 bg-[#C5D9CC] rounded-full h-1.5 relative border border-[#12201a]/15">
+            <span className="font-['Bai_Jamjuree'] text-[10px] text-[#12201a]/45 flex-shrink-0">{fmtTime(currentTime)}</span>
+            <div
+              ref={trackRef}
+              className="flex-1 bg-[#C5D9CC] rounded-full h-1.5 relative border border-[#12201a]/15 cursor-pointer"
+              onClick={seek}
+            >
               <div className="h-1.5 rounded-full bg-[#0071ce]" style={{ width: `${progress}%` }} />
               <div
-                className="absolute top-1/2 w-3 h-3 rounded-full border-2 border-[#12201a] bg-white"
+                className="absolute top-1/2 w-3 h-3 rounded-full border-2 border-[#12201a] bg-white pointer-events-none"
                 style={{ left: `${progress}%`, transform: "translate(-50%, -50%)" }}
               />
             </div>
-            <span className="font-['Bai_Jamjuree'] text-[10px] text-[#12201a]/45 flex-shrink-0">7:30</span>
+            <span className="font-['Bai_Jamjuree'] text-[10px] text-[#12201a]/45 flex-shrink-0">{fmtTime(duration)}</span>
           </div>
         </div>
         <button
@@ -597,7 +677,8 @@ export function Explore() {
   const [parkingCode, setParkingCode] = useState("");
 
   const selectedAnswer = checkpointAnswers[currentCheckpoint];
-  const isCorrect = selectedAnswer === cp.correct;
+  const activeCorrect = effectiveMode === "boat" ? cp.boatCorrect : cp.correct;
+  const isCorrect = selectedAnswer === activeCorrect;
   const isCompleted = completedCheckpoints[currentCheckpoint];
   const allDone = completedCheckpoints.every(Boolean);
 
@@ -647,6 +728,20 @@ export function Explore() {
   useEffect(() => {
     setParkingCode("");
   }, [currentCheckpoint]);
+
+  // Auto-submit when parking code is correct (bike mode)
+  useEffect(() => {
+    if (effectiveMode === "bike" && isParkingCodeCorrect && !isCompleted) {
+      handleSubmitAnswer();
+    }
+  }, [isParkingCodeCorrect, isCompleted, effectiveMode]);
+
+  // Auto-submit when correct answer is selected (walk/boat mode)
+  useEffect(() => {
+    if (effectiveMode !== "bike" && isCorrect && !isCompleted) {
+      handleSubmitAnswer();
+    }
+  }, [isCorrect, isCompleted, effectiveMode]);
 
   const handleLotteryAccept = (challenge: LotteryChallenge) => {
     dispatch({ type: "ACTIVATE_LOTTERY", id: challenge.id });
@@ -776,7 +871,7 @@ export function Explore() {
                 {effectiveMode === "bike" ? (
                   // Bike mode: parking station code input
                   <>
-                    <p className="font-['Bai_Jamjuree'] text-[#12201a]/75 text-sm mb-4 leading-relaxed">
+                    <p className="font-['Bai_Jamjuree'] text-[#12201a]/75 mb-4 leading-relaxed font-[Anuphan] font-bold text-[20px]">
                       กรอกรหัสจุดจอดจักรยานเพื่อยืนยันว่าคุณอยู่ที่จุดนี้
                     </p>
                     <input
@@ -795,32 +890,29 @@ export function Explore() {
                         >
                           {isParkingCodeCorrect ? `✓ รหัสถูกต้อง` : `✗ รหัสไม่ถูกต้อง`}
                         </div>
-                        {isParkingCodeCorrect && (
-                          <PrimaryButton onClick={handleSubmitAnswer} className="flex items-center justify-center gap-2 py-3">
-                            ยืนยันว่าอยู่ที่จุดนี้ ✓
-                          </PrimaryButton>
-                        )}
                       </div>
                     )}
                   </>
                 ) : (
                   // Walk/Boat mode: quiz questions
                   <>
-                    <p className="font-['Anuphan'] text-[#12201a]/75 font-bold mb-4 leading-relaxed text-[20px]">{cp.question}</p>
+                    <p className="font-['Anuphan'] text-[#12201a]/75 font-bold mb-4 leading-relaxed text-[20px]">
+                      {effectiveMode === "boat" ? cp.boatQuestion : cp.question}
+                    </p>
                     <div className="grid grid-cols-2 gap-3">
-                      {cp.options.map((opt, i) => (
+                      {(effectiveMode === "boat" ? cp.boatOptions : cp.options).map((opt, i) => (
                         <button
                           key={i}
                           onClick={() => handleAnswer(i)}
                           disabled={isCompleted}
                           className={`p-4 rounded-2xl border-2 font-['Bai_Jamjuree'] text-sm text-left transition-all disabled:cursor-default ${
                             selectedAnswer === i
-                              ? i === cp.correct
+                              ? i === activeCorrect
                                 ? "border-[#12201a] text-white"
                                 : "bg-[#ec3faa]/10 border-[#ec3faa] text-[#ec3faa]"
                               : "bg-white border-[#C5D9CC] text-[#12201a] hover:border-[#12201a] disabled:hover:border-[#C5D9CC]"
                           }`}
-                          style={selectedAnswer === i && i === cp.correct ? { backgroundColor: cfg.color, boxShadow: "3px 3px 0 #12201a" } : {}}
+                          style={selectedAnswer === i && i === activeCorrect ? { backgroundColor: cfg.color, boxShadow: "3px 3px 0 #12201a" } : {}}
                         >
                           {opt}
                         </button>
@@ -834,61 +926,81 @@ export function Explore() {
                         >
                           {isCorrect ? `✓ ${t.explore.correct}` : `✗ ${t.explore.wrong}`}
                         </div>
-                        {isCorrect && (
-                          <PrimaryButton onClick={handleSubmitAnswer} className="flex items-center justify-center gap-2 py-3">
-                            อ่านเรื่องราวเกี่ยวกับจุดนี้ 
-                          </PrimaryButton>
-                        )}
                       </div>
                     )}
                   </>
                 )}
               </div>
 
-              {/* Story Category Selection — shown after correct answer */}
-              {isCompleted && (
-                <>
-                  <div>
-                    <h4 className="font-['Anuphan'] text-lg font-bold text-[#12201a] mb-3">เลือกเรื่องราวที่สนใจ</h4>
-                    <div className="grid grid-cols-2 gap-3">
-                      {[
-                        { key: "history" as const, label: "History", emoji: "📜", color: "#0071ce" },
-                        { key: "funFact" as const, label: "FunFact", emoji: "💡", color: "#feb449" },
-                      ].map(cat => (
-                        <button
-                          key={cat.key}
-                          onClick={() => {
-                            setStoryCategory(cat.key);
-                            dispatch({ type: "SELECT_STORY_CATEGORY", idx: currentCheckpoint, category: cat.key });
-                          }}
-                          className={`flex flex-col items-center gap-2 p-4 rounded-2xl border-2 transition-all ${
-                            storyCategory === cat.key
-                              ? "border-[#12201a] text-white"
-                              : "bg-white border-[#C5D9CC] text-[#12201a] hover:border-[#12201a]"
-                          }`}
-                          style={storyCategory === cat.key ? { backgroundColor: cat.color, boxShadow: "3px 3px 0 #12201a" } : {}}
-                        >
-                          <span className="text-2xl">{cat.emoji}</span>
-                          <span className="font-['Anuphan'] text-xs font-medium text-center">{cat.label}</span>
-                        </button>
-                      ))}
-                    </div>
+              {/* Information section — walk mode only */}
+              {isCompleted && effectiveMode === "walk" && (
+                <div>
+                  <h4 className="font-['Anuphan'] text-lg font-bold text-[#12201a] mb-3">เลือกเรื่องราวที่สนใจ</h4>
+                  <div className="grid grid-cols-2 gap-3">
+                    {[
+                      { key: "history" as const, label: "History", emoji: "📜", color: "#0071ce" },
+                      { key: "funFact" as const, label: "FunFact", emoji: "💡", color: "#feb449" },
+                    ].map(cat => (
+                      <button
+                        key={cat.key}
+                        onClick={() => {
+                          setStoryCategory(cat.key);
+                          dispatch({ type: "SELECT_STORY_CATEGORY", idx: currentCheckpoint, category: cat.key });
+                        }}
+                        className={`flex flex-col items-center gap-2 p-4 rounded-2xl border-2 transition-all ${
+                          storyCategory === cat.key
+                            ? "border-[#12201a] text-white"
+                            : "bg-white border-[#C5D9CC] text-[#12201a] hover:border-[#12201a]"
+                        }`}
+                        style={storyCategory === cat.key ? { backgroundColor: cat.color, boxShadow: "3px 3px 0 #12201a" } : {}}
+                      >
+                        <span className="text-2xl">{cat.emoji}</span>
+                        <span className="font-['Anuphan'] text-xs font-medium text-center">{cat.label}</span>
+                      </button>
+                    ))}
                   </div>
-                </>
+                </div>
+              )}
+
+              {/* Audio Guide — bike and boat mode */}
+              {(isCorrect || isCompleted) && (effectiveMode === "boat" || effectiveMode === "bike") && cp.id >= 1 && (
+                <AudioBar checkpoint={cp} inline />
               )}
 
               {isCompleted && (
                 currentCheckpoint < checkpoints.length - 1 ? (
-                  <button
-                    onClick={() => {
-                      dispatch({ type: "ADVANCE_CHECKPOINT" });
-                      setStoryCategory(null);
-                    }}
-                    className="w-full p-4 rounded-2xl border-2 border-[#12201a] font-['Bai_Jamjuree'] text-sm transition-all hover:scale-[1.02] active:translate-x-[2px] active:translate-y-[2px]"
-                    style={{ backgroundColor: `${cfg.color}15`, color: cfg.color, boxShadow: "3px 3px 0 #12201a" }}
-                  >
-                    {t.explore.complete_cp} 
-                  </button>
+                  (effectiveMode === "bike" || effectiveMode === "boat") ? (
+                    <div className="flex flex-col gap-3">
+                      <button
+                        onClick={handleNext}
+                        className="w-full p-4 rounded-2xl border-2 border-[#12201a] font-['Bai_Jamjuree'] text-sm transition-all hover:scale-[1.02] active:translate-x-[2px] active:translate-y-[2px] flex items-center justify-center gap-2"
+                        style={{ backgroundColor: "#fff", color: "#12201a", boxShadow: "3px 3px 0 #12201a" }}
+                      >
+                        🎟️ เลือกหวยสักใบ เพิ่มความสนุกไปอีกขั้น
+                      </button>
+                      <button
+                        onClick={() => {
+                          dispatch({ type: "ADVANCE_CHECKPOINT" });
+                          setStoryCategory(null);
+                        }}
+                        className="w-full p-4 rounded-2xl border-2 border-[#12201a] font-['Bai_Jamjuree'] text-sm transition-all hover:scale-[1.02] active:translate-x-[2px] active:translate-y-[2px]"
+                        style={{ backgroundColor: `${cfg.color}15`, color: cfg.color, boxShadow: "3px 3px 0 #12201a" }}
+                      >
+                        {t.explore.complete_cp}
+                      </button>
+                    </div>
+                  ) : (
+                    <button
+                      onClick={() => {
+                        dispatch({ type: "ADVANCE_CHECKPOINT" });
+                        setStoryCategory(null);
+                      }}
+                      className="w-full p-4 rounded-2xl border-2 border-[#12201a] font-['Bai_Jamjuree'] text-sm transition-all hover:scale-[1.02] active:translate-x-[2px] active:translate-y-[2px]"
+                      style={{ backgroundColor: `${cfg.color}15`, color: cfg.color, boxShadow: "3px 3px 0 #12201a" }}
+                    >
+                      {t.explore.complete_cp}
+                    </button>
+                  )
                 ) : (
                   currentCheckpoint === 5 ? (
                     <button
@@ -896,7 +1008,7 @@ export function Explore() {
                       className="w-full p-4 rounded-2xl border-2 border-[#12201a] font-['Bai_Jamjuree'] text-sm transition-all hover:scale-[1.02] active:translate-x-[2px] active:translate-y-[2px]"
                       style={{ backgroundColor: `${cfg.color}15`, color: cfg.color, boxShadow: "3px 3px 0 #12201a" }}
                     >
-                      จบเส้นทางแล้ว ขอบคุณที่มาสำรวจคลองนี้ไปด้วยกัน 🫡
+                      จบเส้นทางแล้ว ขอบคุณที่สำรวจคลองนี้ไปด้วยกัน 🫡🫡🫡
                     </button>
                   ) : (
                     <div
@@ -918,7 +1030,6 @@ export function Explore() {
               <div className="h-4" />
             </div>
 
-            {effectiveMode === "boat" && <AudioBar checkpoint={cp} />}
           </div>
         </div>
       </div>
