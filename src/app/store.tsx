@@ -13,6 +13,7 @@ interface AppState {
   destinationCheckpointId: number | null; // ID of ending checkpoint (optional)
   selectedCheckpoints: string[];
   mode: Mode | null;
+  modesUsed: Mode[]; // track all modes used during journey
   currentCheckpoint: number;
   completedCheckpoints: boolean[];
   checkpointAnswers: (number | null)[];
@@ -33,6 +34,7 @@ type Action =
   | { type: "SELECT_ANSWER"; idx: number; answer: number }
   | { type: "COMPLETE_CHECKPOINT"; idx: number; coordinates?: { lat: number; lng: number } }
   | { type: "ADVANCE_CHECKPOINT" }
+  | { type: "SET_CURRENT_CHECKPOINT"; idx: number }
   | { type: "SELECT_STORY_CATEGORY"; idx: number; category: "history" | "funFact" | "horror" }
   | { type: "ACTIVATE_LOTTERY"; id: number }
   | { type: "COMPLETE_LOTTERY"; id: number }
@@ -52,6 +54,7 @@ export const initialState: AppState = {
   destinationCheckpointId: null,
   selectedCheckpoints: [],
   mode: null,
+  modesUsed: [],
   currentCheckpoint: 0,
   completedCheckpoints: [false, false, false, false, false, false],
   checkpointAnswers: [null, null, null, null, null, null],
@@ -77,8 +80,13 @@ function reducer(state: AppState = initialState, action: Action): AppState {
         selectedCheckpoints: action.checkpoints,
         currentCheckpoint: action.originCheckpointId ?? 0 // Start at origin checkpoint
       };
-    case "SET_MODE":
-      return { ...state, mode: action.mode };
+    case "SET_MODE": {
+      const lastMode = state.modesUsed[state.modesUsed.length - 1];
+      const newModesUsed = lastMode === action.mode
+        ? state.modesUsed
+        : [...state.modesUsed, action.mode];
+      return { ...state, mode: action.mode, modesUsed: newModesUsed };
+    }
     case "SELECT_ANSWER": {
       const answers = [...state.checkpointAnswers];
       answers[action.idx] = action.answer;
@@ -96,6 +104,8 @@ function reducer(state: AppState = initialState, action: Action): AppState {
     }
     case "ADVANCE_CHECKPOINT":
       return { ...state, currentCheckpoint: Math.min(state.currentCheckpoint + 1, 5) };
+    case "SET_CURRENT_CHECKPOINT":
+      return { ...state, currentCheckpoint: action.idx };
     case "SELECT_STORY_CATEGORY": {
       const categories = [...state.storyCategories];
       categories[action.idx] = action.category;
@@ -158,7 +168,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const value = { state, dispatch };
 
   // Ensure all required fields exist (for development hot reload compatibility)
-  if (!state || typeof state.startTime === 'undefined' || !Array.isArray(state.checkpointTimestamps) || typeof state.originCheckpointId === 'undefined') {
+  if (!state || typeof state.startTime === 'undefined' || !Array.isArray(state.checkpointTimestamps) || typeof state.originCheckpointId === 'undefined' || !Array.isArray(state.modesUsed)) {
     console.warn('Store state incomplete, reinitializing...');
     return <AppContext.Provider value={{ state: initialState, dispatch }}>{children}</AppContext.Provider>;
   }

@@ -45,7 +45,7 @@ export function Splash() {
         {/* Canal label */}
         <div className="absolute bottom-4 left-4">
           <span
-            className="font-['Sarabun'] text-xs text-[#1A1207] bg-[#F5A800] border-2 border-[#1A1207] px-3 py-1.5 rounded-full"
+            className="font-['Bai_Jamjuree'] text-xs text-[#1A1207] bg-[#F5A800] border-2 border-[#1A1207] px-3 py-1.5 rounded-full"
             style={{ boxShadow: "2px 2px 0 #1A1207" }}
           >
             {t.splash.canal_label}
@@ -59,10 +59,10 @@ export function Splash() {
           
           <img src={image_logo_1} alt="Routtery" className="h-12 md:h-14 mb-5" />
           <div className="w-60 h-1.5 bg-[#00754b] rounded-full mb-5" style={{ boxShadow: "2px 2px 0 #12201a" }} />
-          <p className="font-['Sarabun'] text-lg text-[#1A1207]/75 mb-2 leading-relaxed" style={{ whiteSpace: "pre-line" }}>
+          <p className="font-['Bai_Jamjuree'] text-[#1A1207]/75 mb-2 leading-relaxed font-[Bai_Jamjuree] text-[16px]" style={{ whiteSpace: "pre-line" }}>
             {t.splash.subtitle_th}
           </p>
-          <p className="font-['Sarabun'] text-sm text-[#1A1207]/40 mb-10">
+          <p className="font-['Bai_Jamjuree'] text-sm text-[#1A1207]/40 mb-10">
             {t.splash.subtitle_en}
           </p>
 
@@ -80,7 +80,7 @@ export function Splash() {
 
           <button
             onClick={() => dispatch({ type: "SET_LANG", lang: lang === "TH" ? "EN" : "TH" })}
-            className="font-['Fahkwang'] text-sm text-[#1A1207]/50 border border-[#E2D5B0] px-4 py-2 rounded-full hover:bg-[#F5F0E0] transition-colors"
+            className="font-['Anuphan'] text-sm text-[#1A1207]/50 border border-[#E2D5B0] px-4 py-2 rounded-full hover:bg-[#F5F0E0] transition-colors font-[Anuphan]"
           >
             {lang === "TH" ? "TH → EN" : "EN → TH"}
           </button>

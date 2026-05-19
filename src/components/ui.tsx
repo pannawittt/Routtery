@@ -1,4 +1,10 @@
 import type { ReactNode, CSSProperties } from "react";
+import stamp1 from "@/imports/1.png";
+import stamp2 from "@/imports/2.png";
+import stamp3 from "@/imports/3.png";
+import stamp4 from "@/imports/4.png";
+import stamp5 from "@/imports/5.png";
+import stamp6 from "@/imports/6.png";
 
 // ─── CARD ─────────────────────────────────────────────────────────────────────
 
@@ -33,7 +39,7 @@ export function PrimaryButton({ children, onClick, className = "", disabled = fa
       type={type}
       onClick={onClick}
       disabled={disabled}
-      className={`bg-[#E8340A] text-white font-['Fahkwang'] border-2 border-[#1A1207] px-6 py-3 rounded-full transition-all active:translate-x-[2px] active:translate-y-[2px] disabled:opacity-40 disabled:cursor-not-allowed disabled:active:translate-x-0 disabled:active:translate-y-0 ${className}`}
+      className={`bg-[#205A41] text-white font-['Anuphan'] border-2 border-[#1A1207] px-6 py-3 rounded-full transition-all active:translate-x-[2px] active:translate-y-[2px] disabled:opacity-40 disabled:cursor-not-allowed disabled:active:translate-x-0 disabled:active:translate-y-0 ${className} font-normal text-[20px] font-[Anuphan]`}
       style={{ boxShadow: "4px 4px 0 #1A1207" }}
     >
       {children}
@@ -60,7 +66,7 @@ export function YellowButton({ children, onClick, className = "" }: {
     <button
       type="button"
       onClick={onClick}
-      className={`font-['Fahkwang'] bg-[#F5A800] text-[#1A1207] border-2 border-[#1A1207] px-6 py-3 rounded-full transition-all active:translate-x-[2px] active:translate-y-[2px] ${className}`}
+      className={`font-['Anuphan'] bg-[#F5A800] text-[#1A1207] border-2 border-[#1A1207] px-6 py-3 rounded-full transition-all active:translate-x-[2px] active:translate-y-[2px] ${className}`}
       style={{ boxShadow: "4px 4px 0 #1A1207" }}
     >
       {children}
@@ -90,34 +96,43 @@ export function ProgressDots({ total, current, color }: { total: number; current
 
 // ─── HEX STAMP ────────────────────────────────────────────────────────────────
 
-export function HexStamp({ collected, color, label, size = "normal" }: {
+export function HexStamp({ collected, color, label, size = "normal", checkpointId }: {
   collected: boolean;
   color?: string;
   label: string;
   size?: "normal" | "small";
+  checkpointId?: number;
 }) {
-  const pts = "50,4 96,27 96,73 50,96 4,73 4,27";
+  const stampImages = [stamp1, stamp2, stamp3, stamp4, stamp5, stamp6];
+  const stampImage = checkpointId !== undefined ? stampImages[checkpointId] : null;
+
   return (
     <div className="flex flex-col items-center gap-1.5">
-      <svg
-        viewBox="0 0 100 100"
-        className={size === "small" ? "w-[80px] h-[80px]" : "w-[100px] h-[100px] md:w-[130px] md:h-[130px]"}
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <polygon
-          points={pts}
-          fill={collected ? (color ?? "#E8340A") : "#F0EDE0"}
-          stroke="#1A1207"
-          strokeWidth={collected ? "2.5" : "2"}
-          strokeDasharray={collected ? undefined : "6 4"}
-        />
-        {collected ? (
-          <text x="50" y="63" textAnchor="middle" fontSize="30" fontFamily="Fahkwang" fill="white" fontWeight="bold">✓</text>
-        ) : (
-          <text x="50" y="63" textAnchor="middle" fontSize="34" fontFamily="Fahkwang" fill="#1A1207" opacity="0.2">?</text>
-        )}
-      </svg>
-      <span className={`font-['Fahkwang'] text-center leading-tight text-[#1A1207] ${size === "small" ? "text-[9px] w-[75px]" : "text-[10px] md:text-xs w-[90px] md:w-[120px]"}`}>
+      <div className="relative" style={{ width: size === "small" ? "80px" : "100px", height: size === "small" ? "80px" : "100px" }}>
+        <svg
+          viewBox="0 0 100 100"
+          className={size === "small" ? "w-[80px] h-[80px]" : "w-[100px] h-[100px] md:w-[130px] md:h-[130px]"}
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <circle
+            cx="50"
+            cy="50"
+            r="45"
+            fill={collected ? (color ?? "#E8340A") : "#F0EDE0"}
+            stroke="#1A1207"
+            strokeWidth={collected ? "2.5" : "2"}
+            strokeDasharray={collected ? undefined : "6 4"}
+          />
+        </svg>
+        {collected && stampImage ? (
+          <img src={stampImage} alt={label} className="absolute inset-0 w-full h-full object-contain p-2" />
+        ) : !collected ? (
+          <div className="absolute inset-0 flex items-center justify-center">
+            <span className="font-['Anuphan'] text-[34px] text-[#1A1207] opacity-20">?</span>
+          </div>
+        ) : null}
+      </div>
+      <span className={`font-['Anuphan'] text-center leading-tight text-[#1A1207] ${size === "small" ? "text-[9px] w-[75px]" : "text-[10px] md:text-xs w-[90px] md:w-[120px]"}`}>
         {label}
       </span>
     </div>

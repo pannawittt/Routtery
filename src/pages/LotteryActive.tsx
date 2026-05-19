@@ -52,24 +52,24 @@ function ExitSheet({
           <X size={22} className="text-[#E8340A]" />
         </div>
 
-        <h3 className="font-['Fahkwang'] text-xl font-bold text-[#1A1207] mb-1">
+        <h3 className="font-['Anuphan'] text-xl font-bold text-[#1A1207] mb-1">
           ออกจากภารกิจ?
         </h3>
-        <p className="font-['Sarabun'] text-sm text-[#1A1207]/55 mb-6 leading-relaxed">
+        <p className="font-['Bai_Jamjuree'] text-sm text-[#1A1207]/55 mb-6 leading-relaxed">
           "{challengeName}" จะถูกรีเซ็ตและกลับไปอยู่ในกล่องสลาก พร้อมให้เลือกใหม่ในครั้งหน้า
         </p>
 
         <div className="flex gap-3">
           <button
             onClick={onConfirm}
-            className="flex-1 font-['Fahkwang'] text-sm text-white py-3.5 rounded-full border-2 border-[#1A1207] bg-[#E8340A] active:translate-x-px active:translate-y-px transition-transform"
+            className="flex-1 font-['Anuphan'] text-sm text-white py-3.5 rounded-full border-2 border-[#1A1207] bg-[#E8340A] active:translate-x-px active:translate-y-px transition-transform"
             style={{ boxShadow: "3px 3px 0 #1A1207" }}
           >
             ออกจากภารกิจ
           </button>
           <button
             onClick={onCancel}
-            className="flex-1 font-['Fahkwang'] text-sm text-[#1A1207] py-3.5 rounded-full border-2 border-[#1A1207] bg-white active:translate-x-px active:translate-y-px transition-transform"
+            className="flex-1 font-['Anuphan'] text-sm text-[#1A1207] py-3.5 rounded-full border-2 border-[#1A1207] bg-white active:translate-x-px active:translate-y-px transition-transform"
             style={{ boxShadow: "3px 3px 0 #1A1207" }}
           >
             ทำต่อ
@@ -95,8 +95,8 @@ export function LotteryActive() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <p className="font-['Sarabun'] text-[#1A1207]/60 mb-4">ไม่พบความท้าทายที่เลือก</p>
-          <button onClick={() => navigate("/lottery")} className="font-['Fahkwang'] text-sm text-[#E8340A] underline">
+          <p className="font-['Bai_Jamjuree'] text-[#1A1207]/60 mb-4">ไม่พบความท้าทายที่เลือก</p>
+          <button onClick={() => navigate("/lottery")} className="font-['Anuphan'] text-sm text-[#E8340A] underline">
             กลับไปหน้าล็อตเตอรี่
           </button>
         </div>
@@ -152,14 +152,14 @@ export function LotteryActive() {
         {/* Back to explore */}
         <button
           onClick={() => navigate("/explore")}
-          className="flex items-center gap-1 font-['Fahkwang'] text-xs text-[#1A1207]/50 hover:text-[#1A1207] transition-colors flex-shrink-0"
+          className="flex items-center gap-1 font-['Anuphan'] text-xs text-[#1A1207]/50 hover:text-[#1A1207] transition-colors flex-shrink-0"
         >
           <ChevronLeft size={15} /> สำรวจ
         </button>
 
         {/* Challenge name centred */}
         <div className="flex-1 text-center min-w-0">
-          <span className="font-['Fahkwang'] text-sm font-bold text-[#1A1207] truncate">
+          <span className="font-['Anuphan'] text-sm font-bold text-[#1A1207] truncate">
             {challenge.name}
           </span>
         </div>
@@ -167,7 +167,7 @@ export function LotteryActive() {
         {/* Exit button — always visible */}
         <button
           onClick={() => setShowExit(true)}
-          className="flex items-center gap-1.5 font-['Fahkwang'] text-xs text-white px-3 py-1.5 rounded-full border-2 border-[#1A1207] flex-shrink-0"
+          className="flex items-center gap-1.5 font-['Anuphan'] text-xs text-white px-3 py-1.5 rounded-full border-2 border-[#1A1207] flex-shrink-0"
           style={{ backgroundColor: "#E8340A", boxShadow: "2px 2px 0 #1A1207" }}
         >
           <X size={12} /> ออก
@@ -182,12 +182,12 @@ export function LotteryActive() {
           style={{ boxShadow: "4px 4px 0 #1A1207", background: "linear-gradient(135deg, #FFFDF5 0%, #FFF8E6 100%)" }}
         >
           <div className="flex items-start justify-between gap-2 mb-2">
-            <h2 className="font-['Fahkwang'] text-2xl font-bold text-[#1A1207]">{challenge.name}</h2>
+            <h2 className="font-['Anuphan'] text-2xl font-bold text-[#1A1207]">{challenge.name}</h2>
             <div className="flex gap-1 flex-shrink-0">
               {challenge.methods.map(m => (
                 <span
                   key={m}
-                  className="text-[10px] text-white px-2 py-0.5 rounded-full border border-[#1A1207] font-['Sarabun']"
+                  className="text-[10px] text-white px-2 py-0.5 rounded-full border border-[#1A1207] font-['Bai_Jamjuree']"
                   style={{ backgroundColor: METHOD_COLOR[m] }}
                 >
                   {METHOD_EMOJI[m]}
@@ -195,7 +195,7 @@ export function LotteryActive() {
               ))}
             </div>
           </div>
-          <p className="font-['Sarabun'] text-[#1A1207]/65 text-sm leading-relaxed mb-3">
+          <p className="font-['Bai_Jamjuree'] text-[#1A1207]/65 text-sm leading-relaxed mb-3">
             {challenge.task}
           </p>
 
@@ -210,7 +210,7 @@ export function LotteryActive() {
                 transition={{ duration: 0.5, ease: "easeOut" }}
               />
             </div>
-            <span className="font-['Fahkwang'] text-xs text-[#1A1207] flex-shrink-0">
+            <span className="font-['Anuphan'] text-xs text-[#1A1207] flex-shrink-0">
               {uploaded} / {challenge.requiredPhotos}
             </span>
           </div>
@@ -219,18 +219,18 @@ export function LotteryActive() {
         {/* Colour hunting: target swatch */}
         {isColour && targetColor && (
           <div className="mb-5">
-            <div className="font-['Fahkwang'] text-sm text-[#1A1207]/55 mb-2">สีเป้าหมาย</div>
+            <div className="font-['Anuphan'] text-sm text-[#1A1207]/55 mb-2">สีเป้าหมาย</div>
             <Card className="p-4 flex items-center gap-4">
               <div
                 className="w-16 h-16 rounded-2xl border-2 border-[#1A1207] flex-shrink-0"
                 style={{ backgroundColor: targetColor, boxShadow: "3px 3px 0 #1A1207" }}
               />
               <div>
-                <div className="font-['Fahkwang'] text-lg font-bold text-[#1A1207]">
+                <div className="font-['Anuphan'] text-lg font-bold text-[#1A1207]">
                   {colorLabels[currentSlot % colorLabels.length]}
                 </div>
-                <div className="font-['Sarabun'] text-xs text-[#1A1207]/45">{targetColor}</div>
-                <div className="font-['Sarabun'] text-xs text-[#1A1207]/45 mt-0.5">
+                <div className="font-['Bai_Jamjuree'] text-xs text-[#1A1207]/45">{targetColor}</div>
+                <div className="font-['Bai_Jamjuree'] text-xs text-[#1A1207]/45 mt-0.5">
                   ภาพที่ {currentSlot + 1} จาก {challenge.requiredPhotos}
                 </div>
               </div>
@@ -240,7 +240,7 @@ export function LotteryActive() {
 
         {/* Camera viewfinder */}
         <div className="mb-5">
-          <div className="font-['Fahkwang'] text-sm text-[#1A1207]/55 mb-2">กล้อง</div>
+          <div className="font-['Anuphan'] text-sm text-[#1A1207]/55 mb-2">กล้อง</div>
           <Card
             className="p-0 overflow-hidden cursor-pointer"
             onClick={() => !isDone && fileInputRef.current?.click()}
@@ -251,7 +251,7 @@ export function LotteryActive() {
               ) : (
                 <div className="flex flex-col items-center gap-2">
                   <Camera size={40} className="text-white/15" />
-                  <span className="font-['Sarabun'] text-white/25 text-xs">แตะเพื่อเปิดกล้อง</span>
+                  <span className="font-['Bai_Jamjuree'] text-white/25 text-xs">แตะเพื่อเปิดกล้อง</span>
                 </div>
               )}
 
@@ -272,16 +272,16 @@ export function LotteryActive() {
               {isDone && (
                 <div className="absolute inset-0 bg-[#00A878]/80 flex flex-col items-center justify-center gap-2">
                   <Check size={44} className="text-white" strokeWidth={3} />
-                  <span className="font-['Fahkwang'] text-white text-lg font-bold">ภารกิจสำเร็จ!</span>
+                  <span className="font-['Anuphan'] text-white text-lg font-bold">ภารกิจสำเร็จ!</span>
                 </div>
               )}
             </div>
             <div className="px-4 py-2.5 border-t border-[#E2D5B0] flex items-center justify-between">
-              <span className="font-['Sarabun'] text-xs text-[#1A1207]/55">
+              <span className="font-['Bai_Jamjuree'] text-xs text-[#1A1207]/55">
                 {isDone ? "ครบแล้ว! 🎉" : "แตะเพื่อถ่ายภาพ"}
               </span>
               {!isDone && (
-                <span className="font-['Fahkwang'] text-xs text-[#1A1207]/40">
+                <span className="font-['Anuphan'] text-xs text-[#1A1207]/40">
                   เหลือ {challenge.requiredPhotos - uploaded} ภาพ
                 </span>
               )}
@@ -299,7 +299,7 @@ export function LotteryActive() {
 
         {/* Photo slots */}
         <div className="mb-6">
-          <div className="font-['Fahkwang'] text-sm text-[#1A1207]/55 mb-2.5">ภาพที่ถ่ายแล้ว</div>
+          <div className="font-['Anuphan'] text-sm text-[#1A1207]/55 mb-2.5">ภาพที่ถ่ายแล้ว</div>
           <div className="flex gap-2 flex-wrap">
             {Array.from({ length: challenge.requiredPhotos }).map((_, i) => {
               const slotSize = challenge.requiredPhotos > 4 ? 52 : 64;
@@ -345,7 +345,7 @@ export function LotteryActive() {
         ) : (
           <button
             onClick={() => navigate("/lottery")}
-            className="w-full font-['Fahkwang'] text-base text-white py-4 rounded-full border-2 border-[#1A1207] flex items-center justify-center gap-2 bg-[#00A878] mb-3 active:translate-x-px active:translate-y-px transition-transform"
+            className="w-full font-['Anuphan'] text-base text-white py-4 rounded-full border-2 border-[#1A1207] flex items-center justify-center gap-2 bg-[#00A878] mb-3 active:translate-x-px active:translate-y-px transition-transform"
             style={{ boxShadow: "4px 4px 0 #1A1207" }}
           >
             ดูสลากทั้งหมด <ArrowRight size={18} />
@@ -355,7 +355,7 @@ export function LotteryActive() {
         {/* Exit link — secondary, always visible */}
         <button
           onClick={() => setShowExit(true)}
-          className="w-full font-['Sarabun'] text-sm text-[#1A1207]/40 hover:text-[#E8340A] py-2 transition-colors"
+          className="w-full font-['Bai_Jamjuree'] text-sm text-[#1A1207]/40 hover:text-[#E8340A] py-2 transition-colors"
         >
           ออกจากภารกิจ
         </button>

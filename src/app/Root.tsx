@@ -31,7 +31,7 @@ function ChangeModeDialog({ onClose }: { onClose: () => void }) {
       >
         <div className="w-10 h-1 bg-[#E2D5B0] rounded-full mx-auto mb-5 md:hidden" />
         <div className="flex items-center justify-between mb-5">
-          <h3 className="font-['Fahkwang'] text-xl font-bold text-[#1A1207]">{t.nav.change_mode}</h3>
+          <h3 className="font-['Anuphan'] text-xl font-bold text-[#1A1207]">{t.nav.change_mode}</h3>
           <button
             onClick={onClose}
             className="w-8 h-8 rounded-full border-2 border-[#1A1207] flex items-center justify-center bg-white"
@@ -42,10 +42,10 @@ function ChangeModeDialog({ onClose }: { onClose: () => void }) {
         </div>
         {mode && (
           <div className="mb-5 p-4 rounded-2xl border-2 border-[#E2D5B0] bg-white/60">
-            <p className="font-['Sarabun'] text-xs text-[#1A1207]/45 mb-1.5">{t.nav.current_mode}</p>
+            <p className="font-['Bai_Jamjuree'] text-xs text-[#1A1207]/45 mb-1.5">{t.nav.current_mode}</p>
             <div className="flex items-center gap-3">
               <span className="text-3xl">{modeConfig[mode].emoji}</span>
-              <span className="font-['Fahkwang'] text-lg font-bold text-[#1A1207]">{modeLabel(mode)}</span>
+              <span className="font-['Anuphan'] text-lg font-bold text-[#1A1207]">{modeLabel(mode)}</span>
               <div className="ml-auto w-3 h-3 rounded-full border-2 border-[#1A1207]" style={{ backgroundColor: modeConfig[mode].color }} />
             </div>
           </div>
@@ -60,12 +60,12 @@ function ChangeModeDialog({ onClose }: { onClose: () => void }) {
               style={key !== mode ? { boxShadow: "3px 3px 0 #1A1207" } : {}}
             >
               <span className="text-2xl">{m.emoji}</span>
-              <span className="font-['Fahkwang'] text-base font-bold text-[#1A1207] flex-1 text-left">{modeLabel(key as Mode)}</span>
+              <span className="font-['Anuphan'] text-base font-bold text-[#1A1207] flex-1 text-left">{modeLabel(key as Mode)}</span>
               <div className="w-3 h-3 rounded-full border-2 border-[#1A1207]" style={{ backgroundColor: m.color }} />
             </button>
           ))}
         </div>
-        <button onClick={onClose} className="w-full font-['Sarabun'] text-sm text-[#1A1207]/40 hover:text-[#1A1207] py-2 transition-colors">
+        <button onClick={onClose} className="w-full font-['Bai_Jamjuree'] text-sm text-[#1A1207]/40 hover:text-[#1A1207] py-2 transition-colors">
           {t.nav.cancel}
         </button>
       </div>
@@ -131,7 +131,7 @@ export function Root() {
             {/* TH|EN toggle */}
             <button
               onClick={() => dispatch({ type: "SET_LANG", lang: lang === "TH" ? "EN" : "TH" })}
-              className="font-['Fahkwang'] text-xs border-2 border-[#1A1207] px-3 py-1 rounded-full bg-white text-[#1A1207] hidden md:flex"
+              className="font-['Anuphan'] text-xs border-2 border-[#1A1207] px-3 py-1 rounded-full bg-white text-[#1A1207] hidden md:flex"
               style={{ boxShadow: "2px 2px 0 #1A1207" }}
             >
               {lang === "TH" ? "TH → EN" : "EN → TH"}
@@ -141,7 +141,7 @@ export function Root() {
             {isExplore && mode && (
               <button
                 onClick={() => setModeDialogOpen(true)}
-                className="text-xs border-2 border-[#1A1207] px-3 py-1 rounded-full text-white font-['Fahkwang'] flex items-center gap-1"
+                className="text-xs border-2 border-[#1A1207] px-3 py-1 rounded-full text-white font-['Anuphan'] flex items-center gap-1"
                 style={{ backgroundColor: modeConfig[mode].color, boxShadow: "2px 2px 0 #1A1207" }}
               >
                 {modeConfig[mode].emoji} {modeLabel(mode)}
@@ -168,7 +168,7 @@ export function Root() {
                   key={l.href}
                   to={l.href}
                   onClick={() => setDrawerOpen(false)}
-                  className="block font-['Sarabun'] text-base font-medium text-[#1A1207] p-3 rounded-xl hover:bg-[#F5A800]/15 transition-colors"
+                  className="block font-['Bai_Jamjuree'] text-base font-medium text-[#1A1207] p-3 rounded-xl hover:bg-[#F5A800]/15 transition-colors"
                 >
                   {l.label}
                 </Link>
@@ -177,7 +177,7 @@ export function Root() {
             <div className="mt-auto">
               <button
                 onClick={() => { dispatch({ type: "SET_LANG", lang: lang === "TH" ? "EN" : "TH" }); }}
-                className="w-full font-['Fahkwang'] text-sm border-2 border-[#1A1207] px-4 py-2.5 rounded-full text-[#1A1207] bg-white"
+                className="w-full font-['Anuphan'] text-sm border-2 border-[#1A1207] px-4 py-2.5 rounded-full text-[#1A1207] bg-white"
                 style={{ boxShadow: "2px 2px 0 #1A1207" }}
               >
                 {lang === "TH" ? "TH → EN" : "EN → TH"}
@@ -210,7 +210,7 @@ export function Root() {
                 >
                   <div
                     className="flex items-center gap-2 px-3 py-2 rounded-[20px] transition-all duration-200"
-                    style={isActive ? { backgroundColor: "#E8340A" } : {}}
+                    style={isActive ? { backgroundColor: "#67A33B" } : {}}
                   >
                     <Icon
                       size={20}
@@ -221,7 +221,7 @@ export function Root() {
                       }}
                     />
                     {isActive && (
-                      <span className="font-['Fahkwang'] text-[11px] text-white whitespace-nowrap leading-none">
+                      <span className="font-['Anuphan'] text-[11px] text-white whitespace-nowrap leading-none">
                         {tab.label}
                       </span>
                     )}

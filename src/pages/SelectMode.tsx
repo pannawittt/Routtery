@@ -26,8 +26,8 @@ export function SelectMode() {
     <div className="min-h-screen w-full bg-[#FFFDF5]">
       <div className="max-w-[960px] mx-auto px-6 py-10">
         <div className="text-center mb-10">
-          <h2 className="font-['Fahkwang'] text-3xl md:text-4xl font-bold text-[#1A1207] mb-2">{t.mode.title}</h2>
-          <p className="font-['Sarabun'] text-[#1A1207]/55 text-sm">{t.mode.subtitle}</p>
+          <h2 className="font-['Anuphan'] text-3xl md:text-4xl font-bold text-[#1A1207] mb-2">{t.mode.title}</h2>
+          <p className="font-['Bai_Jamjuree'] text-[#1A1207]/55 text-sm">{t.mode.subtitle}</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
@@ -50,20 +50,20 @@ export function SelectMode() {
                     </div>
                   )}
                   {m.audioGuide && !isSelected && (
-                    <div className="absolute top-4 right-4 bg-[#0057B8] text-white font-['Fahkwang'] text-[10px] px-2 py-0.5 rounded-full border border-[#1A1207]">
+                    <div className="absolute top-4 right-4 bg-[#0057B8] text-white font-['Anuphan'] text-[10px] px-2 py-0.5 rounded-full border border-[#1A1207]">
                       🎧 Audio
                     </div>
                   )}
                   <div className="text-5xl mb-5">{cfg.emoji}</div>
-                  <h3 className="font-['Fahkwang'] text-2xl font-bold text-[#1A1207] mb-2">{modeLabel(m.key)}</h3>
+                  <h3 className="font-['Anuphan'] text-2xl font-bold text-[#1A1207] mb-2">{modeLabel(m.key)}</h3>
                   <div className="flex items-center gap-2 mb-4">
                     <Clock size={13} className="text-[#1A1207]/40" />
-                    <span className="font-['Sarabun'] text-sm text-[#1A1207]/55">{m.time}</span>
+                    <span className="font-['Bai_Jamjuree'] text-sm text-[#1A1207]/55">{m.time}</span>
                   </div>
-                  <p className="font-['Sarabun'] text-sm text-[#1A1207]/70 leading-relaxed mb-5">{m.desc}</p>
+                  <p className="font-['Bai_Jamjuree'] text-sm text-[#1A1207]/70 leading-relaxed mb-5">{m.desc}</p>
                   <div className="pt-4 border-t-2 border-[#E2D5B0]">
                     <div
-                      className="w-full font-['Fahkwang'] text-sm py-2.5 rounded-full border-2 border-[#1A1207] text-white text-center"
+                      className="w-full font-['Anuphan'] text-sm py-2.5 rounded-full border-2 border-[#1A1207] text-white text-center"
                       style={{ backgroundColor: isSelected ? cfg.color : `${cfg.color}CC`, boxShadow: "2px 2px 0 #1A1207" }}
                     >
                       {isSelected ? t.mode.selected : t.mode.select}
@@ -81,7 +81,7 @@ export function SelectMode() {
           </PrimaryButton>
         </div>
         {!mode && (
-          <p className="font-['Sarabun'] text-center text-xs text-[#1A1207]/40 mt-3">{t.mode.pick_first}</p>
+          <p className="font-['Bai_Jamjuree'] text-center text-xs text-[#1A1207]/40 mt-3">{t.mode.pick_first}</p>
         )}
       </div>
     </div>

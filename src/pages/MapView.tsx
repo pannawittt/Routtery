@@ -3,7 +3,7 @@ import { useNavigate } from "react-router";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { Navigation, ArrowRight, X, ChevronRight, MapPin, Utensils } from "lucide-react";
-import { useAppState } from "@/app/store";
+import { useAppState, useAppDispatch } from "@/app/store";
 import { checkpoints, modeConfig, places, PlaceData } from "@/data/constants";
 import { motion, AnimatePresence } from "motion/react";
 import { useT } from "@/app/hooks/useT";
@@ -56,7 +56,7 @@ function makeCheckpointIcon(
         width:${size}px;height:${size}px;
         background:${bg};border:${border};border-radius:50%;
         display:flex;align-items:center;justify-content:center;
-        font-family:'Fahkwang',sans-serif;font-size:${state === "current" ? 14 : 12}px;font-weight:700;
+        font-family:'Anuphan',sans-serif;font-size:${state === "current" ? 14 : 12}px;font-weight:700;
         color:${textColor};
         box-shadow:2px 2px 0 #1A1207${shadow ? `,${shadow}` : ""};
         position:relative;
@@ -179,31 +179,31 @@ function CheckpointPanel({
         <div className="absolute inset-0 bg-gradient-to-t from-[#1A1207]/60 to-transparent" />
         <div className="absolute bottom-3 left-3 right-10">
           <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-white/30 mb-1" style={{ backgroundColor: `${stateColor}cc` }}>
-            <span className="font-['Sarabun'] text-white text-[10px]">{stateLabel}</span>
+            <span className="font-['Bai_Jamjuree'] text-white text-[10px]">{stateLabel}</span>
           </div>
-          <h3 className="font-['Fahkwang'] text-white text-xl font-bold drop-shadow">{cp.name}</h3>
-          <p className="font-['Sarabun'] text-white/70 text-xs">{cp.subtitle}</p>
+          <h3 className="font-['Anuphan'] text-white text-xl font-bold drop-shadow">{cp.name}</h3>
+          <p className="font-['Bai_Jamjuree'] text-white/70 text-xs">{cp.subtitle}</p>
         </div>
         <button onClick={onClose} className="absolute top-2.5 right-2.5 w-7 h-7 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 flex items-center justify-center">
           <X size={13} className="text-white" />
         </button>
       </div>
       <div className="px-4 mb-4">
-        <p className="font-['Sarabun'] text-[#1A1207]/65 text-sm leading-relaxed">{cp.teaser}</p>
+        <p className="font-['Bai_Jamjuree'] text-[#1A1207]/65 text-sm leading-relaxed">{cp.teaser}</p>
       </div>
       <div className="px-4 pb-6">
         {state === "current" ? (
-          <button onClick={onExplore} className="w-full font-['Fahkwang'] text-sm text-white py-3.5 rounded-full border-2 border-[#1A1207] flex items-center justify-center gap-2" style={{ backgroundColor: modeColor, boxShadow: "3px 3px 0 #1A1207" }}>
+          <button onClick={onExplore} className="w-full font-['Anuphan'] text-sm text-white py-3.5 rounded-full border-2 border-[#1A1207] flex items-center justify-center gap-2" style={{ backgroundColor: modeColor, boxShadow: "3px 3px 0 #1A1207" }}>
             {t.map.go_here} <ArrowRight size={16} />
           </button>
         ) : state === "done" ? (
-          <div className="w-full font-['Fahkwang'] text-sm py-3.5 rounded-full border-2 border-[#1A1207] flex items-center justify-center gap-2" style={{ backgroundColor: "#00A87815", color: "#00A878" }}>
+          <div className="w-full font-['Anuphan'] text-sm py-3.5 rounded-full border-2 border-[#1A1207] flex items-center justify-center gap-2" style={{ backgroundColor: "#00A87815", color: "#00A878" }}>
             {t.map.already_done} {idx + 1}
           </div>
         ) : (
-          <div className="w-full font-['Sarabun'] text-sm text-[#1A1207]/45 py-3.5 rounded-full border-2 border-[#E2D5B0] flex items-center justify-center gap-2 bg-white">
+          <button onClick={onExplore} className="w-full font-['Bai_Jamjuree'] text-sm text-[#1A1207]/45 py-3.5 rounded-full border-2 border-[#E2D5B0] flex items-center justify-center gap-2 bg-white hover:bg-[#F5F0E0] transition-colors cursor-pointer">
             {t.map.not_yet}
-          </div>
+          </button>
         )}
       </div>
     </motion.div>
@@ -236,23 +236,23 @@ function PlacePanel({ place, onClose, t }: { place: PlaceData; onClose: () => vo
           </div>
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 mb-0.5">
-              <span className="font-['Fahkwang'] text-xs px-2 py-0.5 rounded-full border border-[#1A1207]" style={{ backgroundColor: `${color}20`, color }}>
+              <span className="font-['Anuphan'] text-xs px-2 py-0.5 rounded-full border border-[#1A1207]" style={{ backgroundColor: `${color}20`, color }}>
                 {categoryLabel[place.category]}
               </span>
             </div>
-            <h3 className="font-['Fahkwang'] text-lg font-bold text-[#1A1207] leading-tight">{place.name}</h3>
-            <p className="font-['Sarabun'] text-xs text-[#1A1207]/50">{place.nameEn}</p>
+            <h3 className="font-['Anuphan'] text-lg font-bold text-[#1A1207] leading-tight">{place.name}</h3>
+            <p className="font-['Bai_Jamjuree'] text-xs text-[#1A1207]/50">{place.nameEn}</p>
           </div>
           <button onClick={onClose} className="w-7 h-7 rounded-full border-2 border-[#1A1207] flex items-center justify-center flex-shrink-0 bg-white">
             <X size={13} className="text-[#1A1207]" />
           </button>
         </div>
-        <p className="font-['Sarabun'] text-sm text-[#1A1207]/70 leading-relaxed mt-3">
+        <p className="font-['Bai_Jamjuree'] text-sm text-[#1A1207]/70 leading-relaxed mt-3">
           {place.description}
         </p>
         <div className="mt-3 flex items-center gap-1.5">
           <MapPin size={12} style={{ color }} />
-          <span className="font-['Sarabun'] text-xs text-[#1A1207]/50">
+          <span className="font-['Bai_Jamjuree'] text-xs text-[#1A1207]/50">
             {t.map.near_checkpoint} {place.nearCheckpoint + 1} — {checkpoints[place.nearCheckpoint].name}
           </span>
         </div>
@@ -266,6 +266,7 @@ function PlacePanel({ place, onClose, t }: { place: PlaceData; onClose: () => vo
 export function MapView() {
   const navigate = useNavigate();
   const { mode, currentCheckpoint, completedCheckpoints } = useAppState();
+  const dispatch = useAppDispatch();
   const t = useT();
   const effectiveMode = mode ?? "walk";
   const cfg = modeConfig[effectiveMode];
@@ -457,10 +458,10 @@ export function MapView() {
               <span style={{ fontSize: 10 }}>{cfg.emoji}</span>
             </div>
             <div>
-              <div className="font-['Fahkwang'] text-xs font-bold text-[#1A1207]">
+              <div className="font-['Anuphan'] text-xs font-bold text-[#1A1207]">
                 {effectiveMode === "walk" ? t.modes.walk : effectiveMode === "bike" ? t.modes.bike : t.modes.boat}
               </div>
-              <div className="font-['Sarabun'] text-[10px] text-[#1A1207]/45">
+              <div className="font-['Bai_Jamjuree'] text-[10px] text-[#1A1207]/45">
                 {distToCurrentCp !== null
                   ? `${t.map.dist_to} ${currentCheckpoint + 1}: ${formatDist(distToCurrentCp)}`
                   : t.map.canal_name}
@@ -479,13 +480,13 @@ export function MapView() {
                 }}
               />
             ))}
-            <span className="font-['Fahkwang'] text-xs text-[#1A1207] ml-1.5">{completedCount}/6</span>
+            <span className="font-['Anuphan'] text-xs text-[#1A1207] ml-1.5">{completedCount}/6</span>
           </div>
 
           <button
             onClick={() => navigate("/explore")}
-            className="flex items-center gap-1 font-['Fahkwang'] text-xs text-white px-3 py-1.5 rounded-full border-2 border-[#1A1207]"
-            style={{ backgroundColor: "#E8340A", boxShadow: "2px 2px 0 #1A1207" }}
+            className="flex items-center gap-1 font-['Anuphan'] text-xs text-white px-3 py-1.5 rounded-full border-2 border-[#1A1207]"
+            style={{ backgroundColor: "#67A33B", boxShadow: "2px 2px 0 #1A1207" }}
           >
             {t.map.go_explore} <ChevronRight size={12} />
           </button>
@@ -496,7 +497,7 @@ export function MapView() {
       <AnimatePresence>
         {locationError && (
           <motion.div
-            className="absolute top-20 left-1/2 -translate-x-1/2 z-[300] bg-[#1A1207] text-white font-['Sarabun'] text-xs px-3 py-2 rounded-full whitespace-nowrap"
+            className="absolute top-20 left-1/2 -translate-x-1/2 z-[300] bg-[#1A1207] text-white font-['Bai_Jamjuree'] text-xs px-3 py-2 rounded-full whitespace-nowrap"
             initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}
           >
             📍 {locationError === "DENIED" ? t.map.location_denied : t.map.location_unsupported}
@@ -547,7 +548,10 @@ export function MapView() {
             state={selectedState}
             modeColor={cfg.color}
             onClose={() => setSelected(null)}
-            onExplore={() => navigate("/explore")}
+            onExplore={() => {
+              dispatch({ type: "SET_CURRENT_CHECKPOINT", idx: selected! });
+              navigate("/explore");
+            }}
             t={t}
           />
         )}

@@ -47,7 +47,7 @@ function makeCheckpointIcon(num: number, isCompleted: boolean) {
         width:${size}px;height:${size}px;
         background:${bg};border:2px solid #12201a;border-radius:50%;
         display:flex;align-items:center;justify-content:center;
-        font-family:'Fahkwang',sans-serif;font-size:11px;font-weight:700;
+        font-family:'Anuphan',sans-serif;font-size:11px;font-weight:700;
         color:${textColor};
         box-shadow:2px 2px 0 #12201a;
       ">
@@ -68,7 +68,7 @@ const storyCategoryInfo = {
 
 export function Summary() {
   const navigate = useNavigate();
-  const { originCheckpointId, destinationCheckpointId, mode, completedCheckpoints, lotteryStatuses, storyCategories, lotteryPhotos, lang, startTime, checkpointTimestamps, routeCoordinates } = useAppState();
+  const { originCheckpointId, destinationCheckpointId, mode, modesUsed, completedCheckpoints, lotteryStatuses, storyCategories, lotteryPhotos, lang, startTime, checkpointTimestamps, routeCoordinates } = useAppState();
   const t = useT();
   const [showMap, setShowMap] = useState(false);
   const mapRef = useRef<L.Map | null>(null);
@@ -277,16 +277,16 @@ export function Summary() {
     <div className="min-h-screen bg-[#FFFDF5]">
       {/* Confetti header */}
       <div
-        className="bg-[#F5A800] border-b-2 border-[#1A1207] py-10 px-6 text-center relative overflow-hidden"
+        className="bg-[#EC3FAA] border-b-2 border-[#1A1207] py-10 px-6 text-center relative overflow-hidden"
         style={{ boxShadow: "0 4px 0 #1A1207" }}
       >
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none opacity-10 text-8xl tracking-widest">
           🎉🎊🎉🎊🎉
         </div>
-        <h2 className="font-['Fahkwang'] text-3xl md:text-4xl font-bold text-[#1A1207] relative z-10">
+        <h2 className="font-['Anuphan'] text-3xl md:text-4xl font-bold text-[#1A1207] relative z-10">
           {t.summary.congrats}
         </h2>
-        <p className="font-['Sarabun'] text-[#1A1207]/75 mt-2 relative z-10">
+        <p className="font-['Bai_Jamjuree'] text-[#1A1207]/75 mt-2 relative z-10">
           {completedCount > 0
             ? `${t.summary.completed_n} ${completedCount} ${t.summary.completed_spots}`
             : t.summary.finished}
@@ -311,11 +311,11 @@ export function Summary() {
           >
             <div className="flex items-center gap-3">
               <MapIcon size={20} className="text-[#E8340A]" />
-              <span className="font-['Fahkwang'] text-lg font-bold text-[#1A1207]">
+              <span className="font-['Anuphan'] text-lg font-bold text-[#1A1207]">
                 {lang === "TH" ? "แผนที่เส้นทาง" : "Route Map"}
               </span>
             </div>
-            <span className="font-['Sarabun'] text-sm text-[#1A1207]/60">
+            <span className="font-['Bai_Jamjuree'] text-sm text-[#1A1207]/60">
               {showMap ? "▲" : "▼"}
             </span>
           </button>
@@ -328,7 +328,7 @@ export function Summary() {
                   <div className="w-full h-full flex items-center justify-center">
                     <div className="text-center p-4">
                       <MapIcon size={48} className="text-[#E8340A] mx-auto mb-2 opacity-30" />
-                      <p className="font-['Sarabun'] text-sm text-[#1A1207]/50">
+                      <p className="font-['Bai_Jamjuree'] text-sm text-[#1A1207]/50">
                         {lang === "TH" ? "ยังไม่มีจุดที่เสร็จสมบูรณ์" : "No completed checkpoints yet"}
                       </p>
                     </div>
@@ -341,24 +341,38 @@ export function Summary() {
         <div className="flex flex-col md:flex-row gap-8">
           {/* Left: stats + lottery badges */}
           <div className="flex-1">
-            <h3 className="font-['Fahkwang'] text-xl font-bold text-[#1A1207] mb-4">{t.summary.route_stats}</h3>
+            <h3 className="font-['Anuphan'] text-xl font-bold text-[#1A1207] mb-4">{t.summary.route_stats}</h3>
             <div className="grid grid-cols-2 gap-4 mb-8">
               {[
                 { label: t.summary.distance, value: distEstimate, icon: "📍", color: "#E8340A" },
                 { label: t.summary.time_spent, value: timeEstimate, icon: "⏱", color: "#F5A800" },
                 { label: t.summary.checkpoints_done, value: `${completedCount}`, icon: "🏁", color: "#00A878" },
-                { label: t.nav.title_mode.split(" ")[0], value: modeLabel, icon: cfg.emoji, color: cfg.color },
               ].map(stat => (
                 <Card key={stat.label} className="p-4">
                   <div className="text-2xl mb-2">{stat.icon}</div>
-                  <div className="font-['Fahkwang'] text-xl font-bold" style={{ color: stat.color }}>{stat.value}</div>
-                  <div className="font-['Sarabun'] text-xs text-[#1A1207]/50 mt-0.5 leading-tight">{stat.label}</div>
+                  <div className="font-['Anuphan'] text-xl font-bold" style={{ color: stat.color }}>{stat.value}</div>
+                  <div className="font-['Bai_Jamjuree'] text-xs text-[#1A1207]/50 mt-0.5 leading-tight">{stat.label}</div>
                 </Card>
               ))}
+              <Card className="p-4">
+                <div className="text-2xl mb-2 flex gap-1">
+                  {modesUsed.length > 0 ? modesUsed.map((m, i) => <span key={i}>{modeConfig[m].emoji}</span>) : cfg.emoji}
+                </div>
+                <div className="font-['Anuphan'] text-xl font-bold flex flex-wrap gap-1" style={{ color: cfg.color }}>
+                  {modesUsed.length > 0
+                    ? modesUsed.map((m, i) => {
+                        const label = m === "walk" ? t.modes.walk : m === "bike" ? t.modes.bike : t.modes.boat;
+                        return <span key={i}>{label}{i < modesUsed.length - 1 ? "," : ""}</span>;
+                      })
+                    : modeLabel
+                  }
+                </div>
+                <div className="font-['Bai_Jamjuree'] text-xs text-[#1A1207]/50 mt-0.5 leading-tight">{t.nav.title_mode.split(" ")[0]}</div>
+              </Card>
             </div>
 
             {/* Lottery badges */}
-            <h3 className="font-['Fahkwang'] text-xl font-bold text-[#1A1207] mb-4">
+            <h3 className="font-['Anuphan'] text-xl font-bold text-[#1A1207] mb-4">
               {t.summary.lottery_badges} {doneLotteries.length > 0 ? `(${doneLotteries.length})` : ""}
             </h3>
             {doneLotteries.length > 0 ? (
@@ -371,9 +385,9 @@ export function Summary() {
                         <div className="w-4 h-4 rounded-full bg-[#F5A800] flex items-center justify-center border border-[#1A1207]">
                           <Check size={9} className="text-[#1A1207]" strokeWidth={3} />
                         </div>
-                        <span className="font-['Fahkwang'] text-sm text-[#1A1207] font-bold">{item.name}</span>
+                        <span className="font-['Anuphan'] text-sm text-[#1A1207] font-bold">{item.name}</span>
                       </div>
-                      <p className="font-['Sarabun'] text-xs text-[#1A1207]/60 mb-2">{item.task}</p>
+                      <p className="font-['Bai_Jamjuree'] text-xs text-[#1A1207]/60 mb-2">{item.task}</p>
                       {photos.length > 0 && (
                         <div className="grid grid-cols-3 gap-2">
                           {photos.map((photo, i) => (
@@ -392,13 +406,13 @@ export function Summary() {
                 })}
               </div>
             ) : (
-              <p className="font-['Sarabun'] text-sm text-[#1A1207]/40">{t.summary.lottery_badges} — 0</p>
+              <p className="font-['Bai_Jamjuree'] text-sm text-[#1A1207]/40">{t.summary.lottery_badges} — 0</p>
             )}
           </div>
 
           {/* Right: checkpoint timeline + stamp preview */}
           <div className="flex-1">
-            <h3 className="font-['Fahkwang'] text-xl font-bold text-[#1A1207] mb-4">{t.summary.checkpoints_done}</h3>
+            <h3 className="font-['Anuphan'] text-xl font-bold text-[#1A1207] mb-4">{t.summary.checkpoints_done}</h3>
             <div className="relative pl-5">
               <div className="absolute left-5 top-4 bottom-4 w-0.5 bg-[#E2D5B0]" />
               <div className="space-y-4">
@@ -415,13 +429,13 @@ export function Summary() {
                         className="w-10 h-10 rounded-full border-2 border-[#1A1207] flex items-center justify-center flex-shrink-0 relative z-10"
                         style={{ backgroundColor: done ? stampColors[i] : "#F0EDE0", color: done ? "white" : "#1A1207" }}
                       >
-                        {done ? <Check size={14} strokeWidth={3} /> : <span className="font-['Fahkwang'] text-xs">{i + 1}</span>}
+                        {done ? <Check size={14} strokeWidth={3} /> : <span className="font-['Anuphan'] text-xs">{i + 1}</span>}
                       </div>
                       <div className="pt-2 flex-1">
-                        <div className="font-['Fahkwang'] text-sm font-bold text-[#1A1207]">{cp.name}</div>
-                        <div className="font-['Sarabun'] text-xs text-[#1A1207]/45">{cp.subtitle}</div>
+                        <div className="font-['Anuphan'] text-sm font-bold text-[#1A1207]">{cp.name}</div>
+                        <div className="font-['Bai_Jamjuree'] text-xs text-[#1A1207]/45">{cp.subtitle}</div>
                         {completedTime && (
-                          <div className="font-['Sarabun'] text-[10px] text-[#1A1207]/35 mt-0.5">
+                          <div className="font-['Bai_Jamjuree'] text-[10px] text-[#1A1207]/35 mt-0.5">
                             {completedTime.toLocaleTimeString(lang === "TH" ? "th-TH" : "en-US", {
                               hour: "2-digit",
                               minute: "2-digit",
@@ -431,7 +445,7 @@ export function Summary() {
                         {categoryInfo && (
                           <div className="mt-1 flex items-center gap-1">
                             <span>{categoryInfo.emoji}</span>
-                            <span className="font-['Sarabun'] text-[10px]" style={{ color: categoryInfo.color }}>
+                            <span className="font-['Bai_Jamjuree'] text-[10px]" style={{ color: categoryInfo.color }}>
                               {lang === "TH" ? categoryInfo.label : categoryInfo.labelEn}
                             </span>
                           </div>
@@ -445,7 +459,7 @@ export function Summary() {
 
             {/* Stamp teaser */}
             <div className="mt-8">
-              <h3 className="font-['Fahkwang'] text-base font-bold text-[#1A1207] mb-4">{t.summary.stamps_collected}</h3>
+              <h3 className="font-['Anuphan'] text-base font-bold text-[#1A1207] mb-4">{t.summary.stamps_collected}</h3>
               <div className="flex gap-3 flex-wrap">
                 {checkpoints.map((cp, i) => (
                   <HexStamp
@@ -454,6 +468,7 @@ export function Summary() {
                     color={stampColors[i]}
                     label={cp.name}
                     size="small"
+                    checkpointId={cp.id}
                   />
                 ))}
               </div>

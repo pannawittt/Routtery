@@ -27,8 +27,8 @@ export class ErrorBoundary extends Component<Props, State> {
     if (this.state.hasError) {
       return (
         <div style={{ padding: "2rem", textAlign: "center" }}>
-          <h2 style={{ color: "#E8340A", fontFamily: "Fahkwang" }}>เกิดข้อผิดพลาด</h2>
-          <p style={{ fontFamily: "Sarabun", color: "#1A1207" }}>
+          <h2 style={{ color: "#E8340A", fontFamily: "Anuphan" }}>เกิดข้อผิดพลาด</h2>
+          <p style={{ fontFamily: "Bai Jamjuree", color: "#1A1207" }}>
             กรุณารีเฟรชหน้าเว็บ
           </p>
           <button
@@ -40,7 +40,7 @@ export class ErrorBoundary extends Component<Props, State> {
               color: "white",
               border: "2px solid #12201a",
               borderRadius: "999px",
-              fontFamily: "Fahkwang",
+              fontFamily: "Anuphan",
               cursor: "pointer"
             }}
           >
